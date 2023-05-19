@@ -1,7 +1,8 @@
+import { ChangeCenterProps } from '@/utils/globalInterfaces'
 import { MapPinIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 
-function Locate() {
+function LocateButton({ changeCenter }: ChangeCenterProps) {
   const [loadingLocation, setLoadingLocation] = useState<boolean>(false)
 
   const findUserLocation = () => {
@@ -9,19 +10,17 @@ function Locate() {
       position => {
         const lat: number = position.coords.latitude
         const lng: number = position.coords.longitude
+        changeCenter({ lat, lng }, 14)
       },
       () => null
     )
   }
 
   return (
-    <button
-      className='absolute top-20 left-5 z-10 px-3 py-2 bg-primary globalRounded'
-      onClick={findUserLocation}
-    >
-      <MapPinIcon className='h-6 w-6 text-white' />
+    <button className='mapButton' onClick={findUserLocation}>
+      <MapPinIcon className='mapButtonIcon' />
     </button>
   )
 }
 
-export default Locate
+export default LocateButton

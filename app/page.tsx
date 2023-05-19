@@ -31,7 +31,7 @@ export default function Home() {
             Find out what everybody else is listening to
           </h2>
           <div className='ml-1 flex flex-row justify-start items-center space-x-6'>
-            <Link href={routeNames.LOGIN} className='landingPageButtons'>
+            <Link href={routeNames.MAP} className='landingPageButtons'>
               See Map!
             </Link>
             <Link href={routeNames.LOGIN} className='landingPageButtons'>

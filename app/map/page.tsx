@@ -1,5 +1,10 @@
 'use client'
-import Locate from '@/components/map/Locate'
+import AddButton from '@/components/map/AddButton'
+import HomeButton from '@/components/map/HomeButton'
+import LocateButton from '@/components/map/LocateButton'
+import PlacesSearchBar from '@/components/map/PlacesSearchBar'
+import ShuffleButton from '@/components/map/ShuffleButton'
+import { Location } from '@/utils/globalInterfaces'
 import { GoogleMap, useLoadScript } from '@react-google-maps/api'
 import { useCallback, useMemo, useRef } from 'react'
 
@@ -8,11 +13,6 @@ function page() {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: ['places'],
   })
-
-  interface Location {
-    lat: number
-    lng: number
-  }
 
   // should find type for map, there is a library for types
   type CallBackType = (map: any) => void
@@ -31,9 +31,9 @@ function page() {
     []
   )
 
-  const changeCenter = (newCenter: Location) => {
+  const changeCenter = (newCenter: Location, zoom: number) => {
     mapRef.current?.panTo(newCenter)
-    mapRef.current?.setZoom(14)
+    mapRef.current?.setZoom(zoom)
   }
 
   return (
@@ -43,7 +43,18 @@ function page() {
         <h1>Loading...</h1>
       ) : (
         <>
-          <Locate />
+          {/* Button Group */}
+          <div className='z-10 absolute top-20 left-5 flex flex-row space-x-2'>
+            <HomeButton center={center} changeCenter={changeCenter} />
+            <LocateButton changeCenter={changeCenter} />
+            <ShuffleButton />
+            <AddButton />
+          </div>
+          {/* Search Bar */}
+          <div className='z-10 absolute top-20 left-[40vw]'>
+            <PlacesSearchBar changeCenter={changeCenter} />
+          </div>
+          {/* Actual Map */}
           <GoogleMap
             mapContainerClassName='h-screen w-screen'
             center={center}
