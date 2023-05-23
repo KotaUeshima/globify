@@ -1,5 +1,6 @@
 'use client'
 import AddButton from '@/components/map/AddButton'
+import AddSongModal from '@/components/map/AddSongModal'
 import HomeButton from '@/components/map/HomeButton'
 import LocateButton from '@/components/map/LocateButton'
 import PlacesSearchBar from '@/components/map/PlacesSearchBar'
@@ -49,6 +50,7 @@ function page() {
             <LocateButton changeCenter={changeCenter} />
             <ShuffleButton />
             <AddButton />
+            <AddSongModal />
           </div>
           {/* Search Bar */}
           <div className='z-10 absolute top-20 left-[40vw]'>

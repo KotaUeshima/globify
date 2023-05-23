@@ -12,7 +12,14 @@ npm install @heroicons/react
 npm install react-google-autocomplete --save
 ```
 
-## Google Maps API
+## APIs
+
+### Google Map
 
 - Account: kota.j.ueshima@gmail.com
+- Project Name: globify
+
+### Spotify
+
+- Account: rachiko38
 - Project Name: globify

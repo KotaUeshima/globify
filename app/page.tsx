@@ -7,17 +7,17 @@ import { useEffect, useState } from 'react'
 export default function Home() {
   const [counter, setCounter] = useState<number>(0)
 
-  useEffect(() => {
-    const fetchCount = async () => {
-      const data = await fetch(`${BACKEND_URL}/count`)
-      const count = await data.json()
-      setCounter(count)
-    }
+  // useEffect(() => {
+  //   const fetchCount = async () => {
+  //     const data = await fetch(`${BACKEND_URL}/count`)
+  //     const count = await data.json()
+  //     setCounter(count)
+  //   }
 
-    fetchCount()
-  }, [])
+  //   fetchCount()
+  // }, [])
 
-  console.log(counter)
+  // console.log(counter)
 
   return (
     <main className='min-h-screen w-full flex flex-row'>
