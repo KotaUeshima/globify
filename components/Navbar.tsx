@@ -1,4 +1,4 @@
-import { routeNames } from '@/utils/globalConstants'
+import { routeNames } from '@/utils/constants'
 import Link from 'next/link'
 
 function Navbar() {

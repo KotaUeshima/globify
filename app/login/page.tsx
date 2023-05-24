@@ -1,5 +1,5 @@
 'use client'
-import { routeNames } from '@/utils/globalConstants'
+import { routeNames } from '@/utils/constants'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
@@ -60,8 +60,12 @@ function page() {
               onChange={UpdateUserObject}
             />
             <div className='mt-2 h-10 lg:h-4 flex flex-col lg:flow-root'>
-              <p className='h-5 float-left text-sm text-errorRed'>{error}</p>
-              <a className='float-right text-sm text-primary/80 font-bold cursor-pointer'>Forgot Password?</a>
+              <p className='h-5 float-left text-sm text-errorRed'>
+                {error}
+              </p>
+              <a className='float-right text-sm text-primary/80 font-bold cursor-pointer'>
+                Forgot Password?
+              </a>
             </div>
             <button className='mt-4 rounded-md p-3 text-white bg-primary/20 hover:bg-primary ease-in-out duration-500'>
               Login
@@ -97,8 +101,13 @@ function page() {
           </button>
           {/* Sign Up Navigation */}
           <div className='flex flex-row items-center justify-center space-x-2'>
-            <p className='text-sm text-gray-500'>Don't have an account yet? </p>
-            <Link href={routeNames.SIGNUP} className='text-sm text-primary/80 font-bold cursor-pointer'>
+            <p className='text-sm text-gray-500'>
+              Don't have an account yet?{' '}
+            </p>
+            <Link
+              href={routeNames.SIGNUP}
+              className='text-sm text-primary/80 font-bold cursor-pointer'
+            >
               Sign Up
             </Link>
           </div>

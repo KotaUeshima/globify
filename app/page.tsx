@@ -1,8 +1,8 @@
 'use client'
 import Globe from '@/components/globe/Globe'
-import { BACKEND_URL, routeNames } from '@/utils/globalConstants'
+import { routeNames } from '@/utils/constants'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export default function Home() {
   const [counter, setCounter] = useState<number>(0)
