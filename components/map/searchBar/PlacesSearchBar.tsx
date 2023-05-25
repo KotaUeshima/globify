@@ -11,8 +11,6 @@ function PlacesSearchBar({ changeCenter }: ChangeCenterProps) {
           const lng = place?.geometry?.location?.lng()
           // check to make sure lat and lng are not undefined
           if (lat && lng) {
-            console.log(lat)
-            console.log(lng)
             changeCenter({ lat, lng }, 14)
           }
         }}

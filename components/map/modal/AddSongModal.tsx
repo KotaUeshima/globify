@@ -1,5 +1,5 @@
 import { XMarkIcon } from '@heroicons/react/24/solid'
-import { useEffect, useState } from 'react'
+import { Dispatch, useEffect, useState } from 'react'
 import TrackCard from './TrackCard'
 import TrackSearchBar from './TrackSearchBar'
 
@@ -10,11 +10,15 @@ interface TokenResponse {
   access_token: string
 }
 
-function AddSongModal() {
+interface AddSongModalProps {
+  setModalOpen: Dispatch<boolean>
+}
+
+function AddSongModal({ setModalOpen }: AddSongModalProps) {
   const [accessToken, setAccessToken] = useState<string>('')
   const [tracks, setTracks] = useState<any[]>([])
   const [searchInput, setSearchInput] = useState<string>('')
-  const [selectedSong, setSelectedSong] = useState('')
+  const [selectedTrack, setSelectedTrack] = useState<any>(null)
 
   useEffect(() => {
     const getToken = async () => {
@@ -53,7 +57,7 @@ function AddSongModal() {
 
     try {
       const response = await fetch(
-        `https://api.spotify.com/v1/search?q=${searchInput}&type=track&limit=20`,
+        `https://api.spotify.com/v1/search?q=${searchInput}&type=track&limit=10`,
         searchParameters
       )
       if (response.ok) {
@@ -68,12 +72,15 @@ function AddSongModal() {
   }
 
   return (
-    <div className='h-screen w-screen z-20 fixed inset-0 bg-gray-300/50 flex justify-center items-center'>
+    <div className='h-full w-full fixed inset-0 bg-gray-600/50 flex justify-center items-center'>
       {/* Actual Modal */}
-      <div className='max-h-[50vh] w-1/3 flex flex-col bg-secondary px-4 pb-4 globalRounded overflow-y-auto'>
+      <div className='h-[60vh] w-1/3 flex flex-col bg-secondary px-4 pb-4 globalRounded'>
         {/* Navigation Bar */}
         <div className='h-10 py-2 flex justify-end items-center'>
-          <XMarkIcon className='h-6 w-6 rounded-full hover:bg-white hover:text-secondary globalTransition' />
+          <XMarkIcon
+            onClick={() => setModalOpen(false)}
+            className='h-6 w-6 rounded-full hover:bg-white hover:text-secondary globalTransition cursor-pointer'
+          />
         </div>
         {/* Search Bar */}
         <div>
@@ -83,12 +90,49 @@ function AddSongModal() {
           />
         </div>
         {/* Search Results Area */}
-        <div className='mt-2'>
+        <div className='mt-2 overflow-y-auto h-[75%] globalRounded'>
           {tracks.map(track => {
-            return <TrackCard key={track.id} track={track} />
+            return (
+              <TrackCard
+                key={track.id}
+                track={track}
+                selectedTrack={selectedTrack}
+                setSelectedTrack={setSelectedTrack}
+              />
+            )
           })}
         </div>
         {/* Submit Song Area */}
+        <div className='mt-4 flex flex-row justify-between items-center'>
+          {selectedTrack ? (
+            <div className='mt-2 flex flex-row globalRounded'>
+              <img
+                src={selectedTrack.album.images[0].url}
+                alt='album-cover'
+                className='w-10 rounded-md'
+              />
+              <div className='ml-4 flex flex-col mr-4'>
+                <h2 className='text-sm font-thin'>{selectedTrack.name}</h2>
+                <p className='text-xs text-gray-400'>
+                  by {selectedTrack.artists[0].name}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div></div>
+          )}
+          <button
+            onClick={() => {
+              setModalOpen(false)
+            }}
+            className={`px-3 py-2 globalRounded ${
+              selectedTrack ? 'bg-primary' : 'bg-primary/50'
+            }`}
+            disabled={selectedTrack ? false : true}
+          >
+            Confirm
+          </button>
+        </div>
       </div>
     </div>
   )

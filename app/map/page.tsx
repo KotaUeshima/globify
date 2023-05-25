@@ -1,13 +1,13 @@
 'use client'
-import AddButton from '@/components/map/AddButton'
-import AddSongModal from '@/components/map/AddSongModal'
-import HomeButton from '@/components/map/HomeButton'
-import LocateButton from '@/components/map/LocateButton'
-import PlacesSearchBar from '@/components/map/PlacesSearchBar'
-import ShuffleButton from '@/components/map/ShuffleButton'
+import PlacesSearchBar from '@/components/map/searchBar/PlacesSearchBar'
+import AddButton from '@/components/map/buttons/AddButton'
+import HomeButton from '@/components/map/buttons/HomeButton'
+import LocateButton from '@/components/map/buttons/LocateButton'
+import ShuffleButton from '@/components/map/buttons/ShuffleButton'
+import AddSongModal from '@/components/map/modal/AddSongModal'
 import { Location } from '@/utils/globalInterfaces'
 import { GoogleMap, useLoadScript } from '@react-google-maps/api'
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
 function page() {
   const { isLoaded } = useLoadScript({
@@ -32,6 +32,8 @@ function page() {
     []
   )
 
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
+
   const changeCenter = (newCenter: Location, zoom: number) => {
     mapRef.current?.panTo(newCenter)
     mapRef.current?.setZoom(zoom)
@@ -49,8 +51,8 @@ function page() {
             <HomeButton center={center} changeCenter={changeCenter} />
             <LocateButton changeCenter={changeCenter} />
             <ShuffleButton />
-            <AddButton />
-            <AddSongModal />
+            <AddButton setModalOpen={setModalOpen} />
+            {modalOpen && <AddSongModal setModalOpen={setModalOpen} />}
           </div>
           {/* Search Bar */}
           <div className='z-10 absolute top-20 left-[40vw]'>
