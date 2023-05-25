@@ -1,19 +1,23 @@
 'use client'
-import PlacesSearchBar from '@/components/map/searchBar/PlacesSearchBar'
 import AddButton from '@/components/map/buttons/AddButton'
 import HomeButton from '@/components/map/buttons/HomeButton'
 import LocateButton from '@/components/map/buttons/LocateButton'
 import ShuffleButton from '@/components/map/buttons/ShuffleButton'
 import AddSongModal from '@/components/map/modal/AddSongModal'
+import PlacesSearchBar from '@/components/map/searchBar/PlacesSearchBar'
 import { Location } from '@/utils/globalInterfaces'
 import { GoogleMap, useLoadScript } from '@react-google-maps/api'
 import { useCallback, useMemo, useRef, useState } from 'react'
+import { useAppSelector } from '../GlobalRedux/store'
 
 function page() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: ['places'],
   })
+
+  const user = useAppSelector(state => state.user)
+  console.log(user)
 
   // should find type for map, there is a library for types
   type CallBackType = (map: any) => void
@@ -65,7 +69,7 @@ function page() {
             zoom={5}
             onLoad={onLoad}
             options={{
-              mapId: '2f1759f08238137f',
+              mapId: 'a13741fdb83a0364',
               disableDefaultUI: true,
               clickableIcons: false,
               minZoom: 3,

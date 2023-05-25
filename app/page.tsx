@@ -2,23 +2,8 @@
 import Globe from '@/components/globe/Globe'
 import { routeNames } from '@/utils/constants'
 import Link from 'next/link'
-import { useState } from 'react'
 
 export default function Home() {
-  const [counter, setCounter] = useState<number>(0)
-
-  // useEffect(() => {
-  //   const fetchCount = async () => {
-  //     const data = await fetch(`${BACKEND_URL}/count`)
-  //     const count = await data.json()
-  //     setCounter(count)
-  //   }
-
-  //   fetchCount()
-  // }, [])
-
-  // console.log(counter)
-
   return (
     <main className='min-h-screen w-full flex flex-row'>
       {/* Left Side */}

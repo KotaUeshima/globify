@@ -1,23 +1,28 @@
 'use client'
-import { routeNames } from '@/utils/constants'
+import { useAppDispatch } from '@/app/GlobalRedux/store'
+import { addUserToStore } from '@/features/users/userSlice'
+import { BACKEND_URL, routeNames } from '@/utils/constants'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 function page() {
   interface LoginUser {
-    email: string
+    username: string
     password: string
   }
 
   const defaultLoginUser: LoginUser = {
-    email: '',
+    username: '',
     password: '',
   }
 
   const [loginUser, setLoginUser] = useState<LoginUser>(defaultLoginUser)
   const [error, setError] = useState<string>('')
-
-  // const router = useRouter()
+  // for Next.js routing
+  const router = useRouter()
+  // to dispatch to Redux Store
+  const dispatch = useAppDispatch()
 
   const UpdateUserObject = (e: React.ChangeEvent<HTMLInputElement>) => {
     const copyLoginUser = {
@@ -29,24 +34,52 @@ function page() {
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    try {
+      const response = await fetch(`${BACKEND_URL}/login`, {
+        method: 'POST',
+        headers: {
+          Accepts: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user: loginUser }),
+      })
+      if (response.ok) {
+        const data = await response.json()
+        dispatch(
+          addUserToStore({
+            userId: '23',
+            username: 'Testing',
+          })
+        )
+        router.push(routeNames.MAP)
+      } else {
+        const error = await response.json()
+        throw Error()
+      }
+    } catch (e: any) {
+      console.error('Error:', e)
+    }
   }
 
   return (
-    <div className='min-h-screen w-screen flex flex-row justify-center items-center bg-white'>
-      {/* Hovering White */}
+    <div className='min-h-screen w-screen flex flex-row justify-center items-center'>
+      {/* White Box */}
       <div className='w-[40%] bg-white globalRounded flex pt-14 pb-10 drop-shadow-2xl justify-center items-center'>
         {/* Form + Header + SignInButton */}
         <div className='flex flex-col space-y-8 w-2/3'>
           <h2 className='loginHeader'>Welcome Back!</h2>
-          <form className='flex flex-col' onSubmit={handleSignUp}>
-            <label htmlFor='email' className='text-sm text-black/80'>
-              Email
+          <form
+            className='flex flex-col text-black'
+            onSubmit={handleSignUp}
+          >
+            <label htmlFor='username' className='text-sm text-black/80'>
+              Username
             </label>
             <input
               type='text'
-              name='email'
+              name='username'
               className='loginFormInput'
-              value={loginUser.email}
+              value={loginUser.username}
               onChange={UpdateUserObject}
             />
             <label htmlFor='password' className='text-sm text-black/80'>
