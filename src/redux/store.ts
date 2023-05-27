@@ -5,7 +5,7 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux'
-import userReducer from '../../features/users/userSlice'
+import userReducer from '../features/users/userSlice'
 
 const store = configureStore({
   reducer: {

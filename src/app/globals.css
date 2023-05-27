@@ -9,8 +9,8 @@
 }
 
 @layer components {
-  .landingPageButtons {
-    @apply bg-transparent border-[1px] px-6 py-3 globalRounded text-white text-base hover:bg-primary hover:scale-105 ease-in-out duration-700;
+  .landingPageButton {
+    @apply bg-primary px-6 py-2 border-[1px] border-primary globalRounded text-white text-lg font-medium hover:bg-transparent hover:border-white hover:scale-105 ease-in-out duration-700;
   }
 
   .mapButton {

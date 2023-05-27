@@ -1,4 +1,3 @@
-import { ChangeCenterProps } from '@/utils/globalInterfaces'
 import { HomeIcon } from '@heroicons/react/24/solid'
 
 function HomeButton({ changeCenter, center }: ChangeCenterProps) {

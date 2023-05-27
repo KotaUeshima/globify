@@ -1,7 +1,7 @@
 'use client'
-import { useAppDispatch } from '@/app/GlobalRedux/store'
-import { addUserToStore } from '@/features/users/userSlice'
-import { BACKEND_URL, routeNames } from '@/utils/constants'
+import { addUserToStore } from '@/src/features/users/userSlice'
+import { useAppDispatch } from '@/src/redux/store'
+import { BACKEND_URL, routeNames } from '@/src/utils/constants'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -43,21 +43,26 @@ function page() {
         },
         body: JSON.stringify({ user: loginUser }),
       })
+      // successful login
       if (response.ok) {
-        const data = await response.json()
+        const data: BackendResponseUser = await response.json()
         dispatch(
           addUserToStore({
-            userId: '23',
-            username: 'Testing',
+            userId: data.user.id,
+            username: data.user.username,
           })
         )
+        // set jwt token to local storage
+        localStorage.setItem('token', data.jwt)
         router.push(routeNames.MAP)
-      } else {
-        const error = await response.json()
-        throw Error()
+      }
+      // error with login
+      else {
+        const data: BackendError = await response.json()
+        throw Error(data.error)
       }
     } catch (e: any) {
-      console.error('Error:', e)
+      console.error(e)
     }
   }
 

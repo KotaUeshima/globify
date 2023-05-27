@@ -1,5 +1,5 @@
 'use client'
-import { routeNames } from '@/utils/constants'
+import { routeNames } from '@/src/utils/constants'
 import Link from 'next/link'
 import React, { useState } from 'react'
 

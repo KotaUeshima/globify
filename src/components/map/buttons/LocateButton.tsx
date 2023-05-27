@@ -1,4 +1,3 @@
-import { ChangeCenterProps } from '@/utils/globalInterfaces'
 import { MapPinIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 
