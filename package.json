@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@deck.gl/google-maps": "^8.9.16",
+    "@googlemaps/markerclusterer": "^2.1.4",
     "@heroicons/react": "^2.0.18",
     "@mapbox/tilebelt": "^1.0.2",
     "@mapbox/tiny-sdf": "^2.0.6",
@@ -17,6 +18,7 @@
     "@react-three/drei": "^9.68.3",
     "@react-three/fiber": "^8.13.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@types/google.maps": "^3.53.2",
     "@types/node": "20.1.2",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",

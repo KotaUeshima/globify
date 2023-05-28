@@ -23,6 +23,8 @@ npm install @reduxjs/toolkit
 npm install deck.gl --save
 npm install @deck.gl/google-maps
 npm install @mapbox/tiny-sdf
+npm install @googlemaps/markerclusterer
+npm install --save @types/google.maps
 ```
 
 ## React-Redux
