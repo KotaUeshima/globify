@@ -16,6 +16,11 @@ interface ChangeCenterProps {
     Typing for User and Backend Interaction
 */
 
+interface UserInterface {
+  userId: number
+  username: string
+}
+
 interface BackendResponseUser {
   user: {
     id: number

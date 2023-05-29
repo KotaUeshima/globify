@@ -11,12 +11,12 @@ export default function Home() {
         <div className='h-[90vh] w-2/3 flex flex-col justify-center items-center'>
           <div className='flex flex-col text-left w-3/4 space-y-10'>
             <h2 className='text-lg sm:text-4xl md:text-5xl lg:text-7xl lg:leading-normal font-bold tracking-wider'>
-              Discover What Everbody Else is Listening to
+              Discover True Global Music
             </h2>
             <p className='text-lg font-thin w-3/4'>
               Explore what people from all across the world are listening
               to and share with the world what you are listening to with
-              our recent integration of the Spotify API.
+              our global interactive map.
             </p>
             <div className='flex flex-row justify-start items-center space-x-10'>
               <Link href={routeNames.MAP} className='landingPageButton'>

@@ -1,13 +1,8 @@
 'use client'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-export interface UserInterface {
-  userId: string
-  username: string
-}
-
 const initialState: UserInterface = {
-  userId: '',
+  userId: 0,
   username: '',
 }
 

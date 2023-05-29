@@ -12,7 +12,6 @@ import {
 } from '@googlemaps/markerclusterer'
 import { GoogleMap, useLoadScript } from '@react-google-maps/api'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useAppSelector } from '../../redux/store'
 
 const mapOptions = {
   mapId: 'a13741fdb83a0364',
@@ -28,9 +27,6 @@ function page() {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: libraries,
   })
-
-  const user = useAppSelector(state => state.user)
-  console.log(user)
 
   // should find type for map, there is a library for types
   type CallBackType = (map: any) => void

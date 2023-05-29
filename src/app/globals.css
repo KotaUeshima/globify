@@ -32,6 +32,14 @@
   .formLabel {
     @apply text-sm font-medium text-black/80;
   }
+
+  .navLink {
+    @apply text-gray-400 hover:text-white globalTransition;
+  }
+
+  .navLoginButton {
+    @apply border-[0.5px] px-3 py-1 globalRounded text-gray-600 hover:text-white globalTransition;
+  }
 }
 
 @layer utility {

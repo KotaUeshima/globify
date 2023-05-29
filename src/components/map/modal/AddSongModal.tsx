@@ -1,15 +1,10 @@
+import { useAppSelector } from '@/src/redux/store'
+import { BACKEND_URL } from '@/src/utils/constants'
 import { XMarkIcon } from '@heroicons/react/24/solid'
-import { Dispatch, useEffect, useState } from 'react'
+import { Dispatch, useState } from 'react'
 import ModalMap from './ModalMap'
 import TrackCard from './TrackCard'
 import TrackSearchBar from './TrackSearchBar'
-
-const CLIENT_ID = '40ff9b6a103d498382bd8bf9b1809896'
-const CLIENT_SECRET = process.env.NEXT_PUBLIC_SPOTIFY_API_KEY
-
-interface TokenResponse {
-  access_token: string
-}
 
 interface AddSongModalProps {
   setModalOpen: Dispatch<boolean>
@@ -17,63 +12,44 @@ interface AddSongModalProps {
 }
 
 function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
-  const [accessToken, setAccessToken] = useState<string>('')
   const [tracks, setTracks] = useState<any[]>([])
-  const [searchInput, setSearchInput] = useState<string>('')
   const [selectedTrack, setSelectedTrack] = useState<any>(null)
 
-  useEffect(() => {
-    const getToken = async () => {
-      const authParameters = {
+  const user: UserInterface = useAppSelector(state => state.user)
+
+  const addSong = async () => {
+    if (userLocation) {
+      const songObj = {
+        title: selectedTrack.name,
+        artist: selectedTrack.artists[0].name,
+        user_id: user.userId,
+        image_url: selectedTrack.album.images[0].url,
+        lat: userLocation.lat,
+        lng: userLocation.lng,
+        spotify_url: `${selectedTrack.external_urls.spotify.substring(
+          0,
+          25
+        )}embed/${selectedTrack.external_urls.spotify.substring(
+          25
+        )}?utm_source=generator`,
+      }
+
+      console.log(songObj)
+
+      const addSongParams = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          Accepts: 'application/json',
+          'Content-Type': 'application/json',
         },
-        body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
+        body: JSON.stringify(songObj),
       }
 
-      try {
-        const response = await fetch(
-          'https://accounts.spotify.com/api/token',
-          authParameters
-        )
-        const data: TokenResponse = await response.json()
-        setAccessToken(data.access_token)
-      } catch (error: any) {
-        console.error('Error: ', error)
-      }
-    }
-
-    getToken()
-  }, [])
-
-  const searchTracks = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const searchParameters = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-
-    try {
-      const response = await fetch(
-        `https://api.spotify.com/v1/search?q=${searchInput}&type=track&limit=10`,
-        searchParameters
-      )
-      if (response.ok) {
-        const data: { tracks: { items: any[] } } = await response.json()
-        setTracks(data.tracks.items)
-      } else {
-        throw new Error('Error occurred while fetching data.')
-      }
-    } catch (error: any) {
-      console.error('Error: ', error)
+      const response = await fetch(`${BACKEND_URL}/songs`, addSongParams)
+      const data = await response.json()
+      console.log(data)
     }
   }
-
-  const addSong = (track: any) => {}
 
   return (
     <div className='z-20 h-full w-screen fixed inset-0 bg-gray-600/50 flex justify-center items-center'>
@@ -88,10 +64,7 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
         </div>
         {/* Search Bar */}
         <div>
-          <TrackSearchBar
-            searchTracks={searchTracks}
-            setSearchInput={setSearchInput}
-          />
+          <TrackSearchBar setTracks={setTracks} />
         </div>
         {/* Search Results Area */}
         <div className='mt-2 overflow-y-auto h-[75%] globalRounded'>
@@ -137,7 +110,7 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
           )}
           <button
             onClick={() => {
-              addSong(selectedTrack)
+              addSong()
               setModalOpen(false)
             }}
             className={`px-3 py-2 globalRounded font-light ${

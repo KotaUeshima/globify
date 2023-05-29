@@ -1,14 +1,71 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
-import { Dispatch } from 'react'
+import { Dispatch, useEffect, useState } from 'react'
 interface TrackSearchBarProps {
-  searchTracks: (e: React.FormEvent<HTMLFormElement>) => void
-  setSearchInput: Dispatch<string>
+  setTracks: Dispatch<any[]>
 }
 
-function TrackSearchBar({
-  searchTracks,
-  setSearchInput,
-}: TrackSearchBarProps) {
+const CLIENT_ID = '40ff9b6a103d498382bd8bf9b1809896'
+const CLIENT_SECRET = process.env.NEXT_PUBLIC_SPOTIFY_API_KEY
+
+interface TokenResponse {
+  access_token: string
+}
+
+function TrackSearchBar({ setTracks }: TrackSearchBarProps) {
+  const [accessToken, setAccessToken] = useState<string>('')
+  const [searchInput, setSearchInput] = useState<string>('')
+
+  useEffect(() => {
+    const getToken = async () => {
+      const authParameters = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
+      }
+
+      try {
+        const response = await fetch(
+          'https://accounts.spotify.com/api/token',
+          authParameters
+        )
+        const data: TokenResponse = await response.json()
+        setAccessToken(data.access_token)
+      } catch (error: any) {
+        console.error('Error: ', error)
+      }
+    }
+
+    getToken()
+  }, [])
+
+  const searchTracks = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const searchParameters = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/search?q=${searchInput}&type=track&limit=10`,
+        searchParameters
+      )
+      if (response.ok) {
+        const data: { tracks: { items: any[] } } = await response.json()
+        setTracks(data.tracks.items)
+      } else {
+        throw new Error('Error occurred while fetching data.')
+      }
+    } catch (error: any) {
+      console.error('Error: ', error)
+    }
+  }
+
   return (
     <form onSubmit={searchTracks} className='flex items-center'>
       <div className='relative w-full'>
