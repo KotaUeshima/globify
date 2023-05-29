@@ -1,23 +1,24 @@
 import { MapPinIcon } from '@heroicons/react/24/solid'
-import { useState } from 'react'
+import Spinner from '../../Spinner'
 
-function LocateButton({ changeCenter }: ChangeCenterProps) {
-  const [loadingLocation, setLoadingLocation] = useState<boolean>(false)
+interface LocateButtonProps extends ChangeCenterProps {
+  userLocation: MapLocation | null
+}
 
+function LocateButton({ changeCenter, userLocation }: LocateButtonProps) {
   const findUserLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const lat: number = position.coords.latitude
-        const lng: number = position.coords.longitude
-        changeCenter({ lat, lng }, 14)
-      },
-      () => null
-    )
+    if (userLocation) {
+      changeCenter(userLocation, 14)
+    }
   }
 
   return (
     <button className='mapButton' onClick={findUserLocation}>
-      <MapPinIcon className='mapButtonIcon' />
+      {userLocation ? (
+        <MapPinIcon className='mapButtonIcon' />
+      ) : (
+        <Spinner />
+      )}
     </button>
   )
 }

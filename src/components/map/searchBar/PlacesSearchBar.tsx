@@ -1,4 +1,3 @@
-import { ChangeCenterProps } from '@/src/utils/globalInterfaces'
 import Autocomplete from 'react-google-autocomplete'
 
 function PlacesSearchBar({ changeCenter }: ChangeCenterProps) {

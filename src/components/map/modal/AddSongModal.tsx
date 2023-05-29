@@ -1,5 +1,6 @@
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { Dispatch, useEffect, useState } from 'react'
+import ModalMap from './ModalMap'
 import TrackCard from './TrackCard'
 import TrackSearchBar from './TrackSearchBar'
 
@@ -12,9 +13,10 @@ interface TokenResponse {
 
 interface AddSongModalProps {
   setModalOpen: Dispatch<boolean>
+  userLocation: MapLocation | null
 }
 
-function AddSongModal({ setModalOpen }: AddSongModalProps) {
+function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
   const [accessToken, setAccessToken] = useState<string>('')
   const [tracks, setTracks] = useState<any[]>([])
   const [searchInput, setSearchInput] = useState<string>('')
@@ -71,10 +73,12 @@ function AddSongModal({ setModalOpen }: AddSongModalProps) {
     }
   }
 
+  const addSong = (track: any) => {}
+
   return (
-    <div className='h-full w-full fixed inset-0 bg-gray-600/50 flex justify-center items-center'>
+    <div className='z-20 h-full w-screen fixed inset-0 bg-gray-600/50 flex justify-center items-center'>
       {/* Actual Modal */}
-      <div className='h-[60vh] w-1/3 flex flex-col bg-secondary px-4 pb-4 globalRounded'>
+      <div className='h-[75vh] w-1/3 flex flex-col bg-secondary px-4 pb-4 globalRounded'>
         {/* Navigation Bar */}
         <div className='h-10 py-2 flex justify-end items-center'>
           <XMarkIcon
@@ -91,21 +95,31 @@ function AddSongModal({ setModalOpen }: AddSongModalProps) {
         </div>
         {/* Search Results Area */}
         <div className='mt-2 overflow-y-auto h-[75%] globalRounded'>
-          {tracks.map(track => {
-            return (
-              <TrackCard
-                key={track.id}
-                track={track}
-                selectedTrack={selectedTrack}
-                setSelectedTrack={setSelectedTrack}
-              />
-            )
-          })}
+          {tracks.length > 0 ? (
+            tracks.map(track => {
+              return (
+                <TrackCard
+                  key={track.id}
+                  track={track}
+                  selectedTrack={selectedTrack}
+                  setSelectedTrack={setSelectedTrack}
+                />
+              )
+            })
+          ) : (
+            <div className='h-full w-full flex justify-center items-center'>
+              <h2 className='text-3xl font-thin text-gray-400 text-center'>
+                Search Songs to See Results
+              </h2>
+            </div>
+          )}
         </div>
+        {/* Map Area */}
+        <ModalMap userLocation={userLocation} />
         {/* Submit Song Area */}
-        <div className='mt-4 flex flex-row justify-between items-center'>
+        <div className='mt-2 flex flex-row justify-between items-center'>
           {selectedTrack ? (
-            <div className='mt-2 flex flex-row globalRounded'>
+            <div className='flex flex-row globalRounded'>
               <img
                 src={selectedTrack.album.images[0].url}
                 alt='album-cover'
@@ -123,14 +137,15 @@ function AddSongModal({ setModalOpen }: AddSongModalProps) {
           )}
           <button
             onClick={() => {
+              addSong(selectedTrack)
               setModalOpen(false)
             }}
-            className={`px-3 py-2 globalRounded ${
+            className={`px-3 py-2 globalRounded font-light ${
               selectedTrack ? 'bg-primary' : 'bg-primary/50'
             }`}
             disabled={selectedTrack ? false : true}
           >
-            Confirm
+            Add Song
           </button>
         </div>
       </div>
