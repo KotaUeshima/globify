@@ -5,6 +5,8 @@ import LocateButton from '@/src/components/map/buttons/LocateButton'
 import ShuffleButton from '@/src/components/map/buttons/ShuffleButton'
 import AddSongModal from '@/src/components/map/modal/AddSongModal'
 import PlacesSearchBar from '@/src/components/map/searchBar/PlacesSearchBar'
+import Sidebar from '@/src/components/map/sidebar/Sidebar'
+import { useAppSelector } from '@/src/redux/store'
 import { BACKEND_URL } from '@/src/utils/constants'
 import {
   MarkerClusterer,
@@ -27,6 +29,9 @@ function page() {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: libraries,
   })
+
+  const user: UserInterface = useAppSelector(state => state.user)
+  const isLoggedIn: boolean = user.username !== ''
 
   // should find type for map, there is a library for types
   type CallBackType = (map: any) => void
@@ -127,7 +132,7 @@ function page() {
       ) : (
         <>
           {/* Button Group */}
-          <div className='z-10 absolute top-20 left-5 flex flex-row space-x-2'>
+          <div className='z-10 absolute top-24 left-5 flex flex-row space-x-2'>
             <HomeButton center={center} changeCenter={changeCenter} />
             <LocateButton
               changeCenter={changeCenter}
@@ -144,9 +149,11 @@ function page() {
             />
           )}
           {/* Search Bar */}
-          <div className='z-10 absolute top-20 left-[40vw]'>
+          <div className='z-10 absolute top-24 left-[40vw]'>
             <PlacesSearchBar changeCenter={changeCenter} />
           </div>
+          {/* Side Bar for User */}
+          {isLoggedIn && <Sidebar />}
           {/* Actual Map */}
           <GoogleMap
             mapContainerClassName='h-screen w-screen'

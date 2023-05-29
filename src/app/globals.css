@@ -34,11 +34,11 @@
   }
 
   .navLink {
-    @apply text-gray-400 hover:text-white globalTransition;
+    @apply text-gray-400 hover:text-white globalTransition flex flex-row space-x-2;
   }
 
   .navLoginButton {
-    @apply border-[0.5px] px-3 py-1 globalRounded text-gray-600 hover:text-white globalTransition;
+    @apply border-[0.5px] px-3 py-2 globalRounded bg-white text-secondary hover:bg-transparent hover:text-white globalTransition;
   }
 }
 
