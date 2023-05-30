@@ -26,47 +26,44 @@ function Navbar() {
   }
 
   return (
-    <div className='h-[10vh] w-[80vw] mx-auto flex justify-between items-center'>
-      <div className='flex flex-row space-x-10'>
-        <Link href={routeNames.HOME} className='font-thin'>
-          Globify
-        </Link>
-        <Link
-          href={routeNames.MAP}
-          className={`${
-            pathname === routeNames.MAP
-              ? 'text-white'
-              : 'text-gray-400 hover:text-white '
-          } globalTransition flex flex-row space-x-2`}
-        >
-          <MapIcon className='h-6 w-6' />
-          <h2>Map</h2>
-        </Link>
+    <div className='w-[85vw] mx-auto'>
+      <div className='h-[10vh] flex justify-between items-center'>
+        <div className='flex flex-row space-x-10'>
+          <Link href={routeNames.HOME} className='font-thin'>
+            Globify
+          </Link>
+          <Link
+            href={routeNames.MAP}
+            className={`${
+              pathname === routeNames.MAP
+                ? 'text-white'
+                : 'text-gray-400 hover:text-white '
+            } globalTransition flex flex-row space-x-2`}
+          >
+            <MapIcon className='h-6 w-6' />
+            <h2>Map</h2>
+          </Link>
+        </div>
+        {/* Welcome Message + Login/Logout Button*/}
+        <div className='flex flex-row items-center space-x-10'>
+          {isLoggedIn ? (
+            <>
+              <h2 className='text-base font-thin'>Hi {user.username}</h2>
+              <button onClick={handleLogout} className='navLoginButton'>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <h2 className='text-base font-thin'>Hi Guest</h2>
+              <Link href={routeNames.LOGIN} className='navLoginButton'>
+                Login
+              </Link>
+            </>
+          )}
+        </div>
       </div>
-      {/* Welcome Message + Login/Logout Button*/}
-      <div className='flex flex-row'>
-        {isLoggedIn ? (
-          <>
-            <div className='flex flex-col text-right mr-2'>
-              <h2 className='text-sm'>Welcome</h2>
-              <h2 className='text-sm font-thin'>{user.username}</h2>
-            </div>
-            <button onClick={handleLogout} className='navLoginButton'>
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <div className='flex flex-col text-right mr-2'>
-              <h2 className='text-sm'>Welcome</h2>
-              <h2 className='text-sm font-thin'>Guest</h2>
-            </div>
-            <Link href={routeNames.LOGIN} className='navLoginButton'>
-              Login
-            </Link>
-          </>
-        )}
-      </div>
+      <hr className='h-[0.5px] bg-white border-none ' />
     </div>
   )
 }

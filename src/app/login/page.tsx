@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
-function page() {
+function Login() {
   interface LoginUser {
     username: string
     password: string
@@ -158,4 +158,4 @@ function page() {
   )
 }
 
-export default page
+export default Login

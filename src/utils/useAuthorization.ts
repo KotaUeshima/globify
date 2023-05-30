@@ -3,7 +3,7 @@ import { addUserToStore } from '../features/users/userSlice'
 import { useAppDispatch } from '../redux/store'
 import { BACKEND_URL } from './constants'
 
-const authorization = () => {
+const useAuthorization = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -29,4 +29,4 @@ const authorization = () => {
   }, [])
 }
 
-export default authorization
+export default useAuthorization

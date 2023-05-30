@@ -4,7 +4,7 @@ import { routeNames } from '@/src/utils/constants'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
-function page() {
+function Signup() {
   interface SignUpUser {
     firstName: string
     lastName: string
@@ -116,4 +116,4 @@ function page() {
   )
 }
 
-export default page
+export default Signup
