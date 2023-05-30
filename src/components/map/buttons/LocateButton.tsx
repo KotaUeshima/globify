@@ -1,5 +1,6 @@
+import { zoomLevel } from '@/src/utils/constants'
 import { MapPinIcon } from '@heroicons/react/24/solid'
-import Spinner from '../../Spinner'
+import Spinner from '../../LoadingSpinner'
 
 interface LocateButtonProps extends ChangeCenterProps {
   userLocation: MapLocation | null
@@ -8,7 +9,7 @@ interface LocateButtonProps extends ChangeCenterProps {
 function LocateButton({ changeCenter, userLocation }: LocateButtonProps) {
   const findUserLocation = () => {
     if (userLocation) {
-      changeCenter(userLocation, 14)
+      changeCenter(userLocation, zoomLevel.CLOSE)
     }
   }
 

@@ -4,7 +4,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 import { useEffect, useState } from 'react'
 import SidebarTrackCard from './SidebarTrackCard'
 
-function Sidebar() {
+function Sidebar({ changeCenter }: ChangeCenterProps) {
   const [open, setOpen] = useState<boolean>(false)
   const [userSongs, setUserSongs] = useState<Song[]>([])
   const [selectedUserSong, setSelectedUserSong] = useState<Song | null>(
@@ -45,7 +45,8 @@ function Sidebar() {
         } absolute top-24 right-5 z-10 h-[80%] w-[20vw] bg-secondary globalRounded ease-in-out duration-1000 overflow-y-auto`}
       >
         {/* Sidebar Navigation */}
-        <div className='h-10 mt-2 mr-2 flex justify-end items-center'>
+        <div className='h-10 mt-2 mx-4 flex justify-between items-center'>
+          <h2 className='text-white text-2xl font-bold'>My Songs</h2>
           <XMarkIcon
             onClick={() => setOpen(false)}
             className='h-6 w-6 rounded-full hover:bg-white hover:text-secondary globalTransition cursor-pointer'
@@ -60,6 +61,7 @@ function Sidebar() {
                 userSong={userSong}
                 selectedUserSong={selectedUserSong}
                 setSelectedUserSong={setSelectedUserSong}
+                changeCenter={changeCenter}
               />
             )
           })}

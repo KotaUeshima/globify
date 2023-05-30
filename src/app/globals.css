@@ -14,7 +14,7 @@
   }
 
   .mapButton {
-    @apply px-3 py-2 bg-primary globalRounded;
+    @apply px-3 py-2 bg-primary/90 hover:bg-primary globalRounded;
   }
 
   .mapButtonIcon {
@@ -31,10 +31,6 @@
 
   .formLabel {
     @apply text-sm font-medium text-black/80;
-  }
-
-  .navLink {
-    @apply text-gray-400 hover:text-white globalTransition flex flex-row space-x-2;
   }
 
   .navLoginButton {

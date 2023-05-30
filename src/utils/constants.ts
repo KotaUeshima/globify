@@ -5,6 +5,12 @@ export const routeNames = {
   SIGNUP: '/signup',
 }
 
+export const zoomLevel = {
+  SUPER_CLOSE: 18,
+  CLOSE: 14,
+  HOME: 5,
+}
+
 let BACKEND_URL: string
 // local endpoint
 if (process.env.NODE_ENV === 'development') {

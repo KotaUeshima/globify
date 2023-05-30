@@ -1,9 +1,15 @@
 'use client'
 import Globe from '@/src/components/globe/Globe'
 import { routeNames } from '@/src/utils/constants'
+import { Canvas } from '@react-three/fiber'
 import Link from 'next/link'
+import SongBox from '../components/globe/SongBox'
+import authorization from '../utils/authorization'
 
 export default function Home() {
+  // check if user is authorized
+  authorization()
+
   return (
     <main className='min-h-screen w-full flex flex-col'>
       <div className='h-full w-full flex flex-row'>
@@ -52,9 +58,10 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className='min-h-screen w-full flex justify-center'>
-        {/* Leaderboard */}
-        <div className='h-[50vh] w-3/4 bg-white globalRounded'></div>
+      <div className='min-h-screen bg-white w-full flex justify-center items-center'>
+        <Canvas>
+          <SongBox />
+        </Canvas>
       </div>
     </main>
   )

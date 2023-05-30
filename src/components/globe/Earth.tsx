@@ -20,7 +20,13 @@ function Earth() {
         <sphereGeometry args={[1.7, 32, 32]} />
         <meshPhongMaterial specularMap={specularMap} />
         <meshStandardMaterial map={specularMap} normalMap={specularMap} />
-        <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} panSpeed={0.5} rotateSpeed={0.4} />
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          enableRotate={true}
+          panSpeed={0.5}
+          rotateSpeed={0.4}
+        />
       </mesh>
     </>
   )

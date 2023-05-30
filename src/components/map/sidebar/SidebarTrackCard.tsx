@@ -1,6 +1,7 @@
+import { zoomLevel } from '@/src/utils/constants'
 import { Dispatch } from 'react'
 
-interface SidebarTrackCardProps {
+interface SidebarTrackCardProps extends ChangeCenterProps {
   userSong: Song
   selectedUserSong: Song | null
   setSelectedUserSong: Dispatch<Song>
@@ -10,6 +11,7 @@ function SidebarTrackCard({
   userSong,
   selectedUserSong,
   setSelectedUserSong,
+  changeCenter,
 }: SidebarTrackCardProps) {
   return (
     <div
@@ -20,6 +22,10 @@ function SidebarTrackCard({
       } mt-2 p-1 flex flex-row globalRounded  globalTransition`}
       onClick={() => {
         setSelectedUserSong(userSong)
+        changeCenter(
+          { lat: userSong.lat, lng: userSong.lng },
+          zoomLevel.CLOSE
+        )
       }}
     >
       <img

@@ -1,4 +1,5 @@
 'use client'
+import BackButton from '@/src/components/BackButton'
 import { addUserToStore } from '@/src/features/users/userSlice'
 import { useAppDispatch } from '@/src/redux/store'
 import { BACKEND_URL, routeNames } from '@/src/utils/constants'
@@ -67,7 +68,9 @@ function page() {
   }
 
   return (
-    <div className='min-h-screen w-screen flex flex-row justify-center items-center'>
+    <div className='absolute top-0 bg-secondary min-h-screen w-screen flex flex-row justify-center items-center'>
+      {/* Back Button */}
+      <BackButton />
       {/* White Box */}
       <div className='w-[40%] bg-white globalRounded flex pt-14 pb-10 drop-shadow-2xl justify-center items-center'>
         {/* Form + Header + SignInButton */}

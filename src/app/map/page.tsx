@@ -16,13 +16,13 @@ import { GoogleMap, useLoadScript } from '@react-google-maps/api'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 const mapOptions = {
-  mapId: 'a13741fdb83a0364',
+  mapId: process.env.NEXT_PUBLIC_MAP_ID,
   disableDefaultUI: true,
   clickableIcons: false,
   minZoom: 3,
   maxZoom: 18,
 }
-const libraries: any = ['places']
+const libraries: any = ['places', 'marker']
 
 function page() {
   const { isLoaded } = useLoadScript({
@@ -153,7 +153,7 @@ function page() {
             <PlacesSearchBar changeCenter={changeCenter} />
           </div>
           {/* Side Bar for User */}
-          {isLoggedIn && <Sidebar />}
+          {isLoggedIn && <Sidebar changeCenter={changeCenter} />}
           {/* Actual Map */}
           <GoogleMap
             mapContainerClassName='h-screen w-screen'

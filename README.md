@@ -13,6 +13,7 @@ npm run dev -- -p 8000
 ## Installation
 
 ```
+npm install three
 npm install @react-three/fiber
 npm install @react-three/drei
 npm install @react-google-maps/api

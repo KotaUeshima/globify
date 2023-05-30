@@ -1,8 +1,9 @@
+import { zoomLevel } from '@/src/utils/constants'
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api'
 
 const libraries: any = ['places']
 const mapOptions = {
-  mapId: 'a13741fdb83a0364',
+  mapId: process.env.NEXT_PUBLIC_MAP_ID,
   disableDefaultUI: true,
   clickableIcons: false,
   gestureHandling: 'none',
@@ -30,7 +31,7 @@ function ModalMap({ userLocation }: ModalMapProps) {
         <GoogleMap
           mapContainerClassName='mt-2 h-[20vh] globalRounded'
           center={userLocation}
-          zoom={18}
+          zoom={zoomLevel.SUPER_CLOSE}
           options={mapOptions}
         >
           <Marker position={userLocation} />

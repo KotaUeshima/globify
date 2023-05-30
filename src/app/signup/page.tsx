@@ -1,4 +1,5 @@
 'use client'
+import BackButton from '@/src/components/BackButton'
 import { routeNames } from '@/src/utils/constants'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -37,7 +38,9 @@ function page() {
   }
 
   return (
-    <div className='min-h-screen w-screen flex flex-row items-center justify-center bg-white'>
+    <div className='absolute top-0 bg-secondary min-h-screen w-screen flex flex-row items-center justify-center'>
+      {/* Back Button */}
+      <BackButton />
       {/* Image on Left Side */}
       <div className='w-1/2 flex justify-center items-center'>Hello</div>
       {/* Form + Header + SignInButton */}
