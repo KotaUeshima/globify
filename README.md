@@ -28,20 +28,26 @@ npm install @googlemaps/markerclusterer
 npm install --save @types/google.maps
 ```
 
-## React-Redux
+## Deployment
 
+Hosted on Vercel: [Link to project]('https://globify-802il2p4c-kotaueshima.vercel.app/')
+
+## Developer
+
+### React-Redux
+
+- React-Redux is used in this application to manage state throughout
 - Remember React-Redux is a client side application and Next.js is by default server side
 - Currently React-Redux Provider is wrapped in layout.tsx
 
-## APIs
+### Third-Party APIs
 
-### Google Map
+**Google Map**
 
 - Account: kota.j.ueshima@gmail.com
 - Project Name: globify
-- Old Map Id : '2f1759f08238137f'
 
-### Spotify
+**Spotify**
 
 - Account: rachiko38
 - Project Name: globify
