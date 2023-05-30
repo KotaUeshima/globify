@@ -143,7 +143,7 @@ function Login() {
           {/* Sign Up Navigation */}
           <div className='flex flex-row items-center justify-center space-x-2'>
             <p className='text-sm text-gray-500'>
-              Don't have an account yet?{' '}
+              Don&apos;t have an account yet?
             </p>
             <Link
               href={routeNames.SIGNUP}
