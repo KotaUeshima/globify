@@ -1,5 +1,5 @@
 'use client'
-import Globe from '@/src/components/globe/Globe'
+import GlobeCanvas from '@/src/components/globe/GlobeCanvas'
 import { routeNames } from '@/src/utils/constants'
 import { Canvas } from '@react-three/fiber'
 import Link from 'next/link'
@@ -53,9 +53,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className='h-full w-full'>
-            <Globe />
-          </div>
+          <div className='h-full w-full'>{/* <GlobeCanvas /> */}</div>
         </div>
       </div>
       <div className='min-h-screen bg-white w-full flex justify-center items-center'>

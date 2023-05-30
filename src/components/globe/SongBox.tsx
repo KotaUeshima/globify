@@ -1,26 +1,30 @@
 import { useFrame } from '@react-three/fiber'
 import { useRef, useState } from 'react'
+import { Mesh } from 'three'
 
 function SongBox() {
-  const mesh = useRef<any | undefined>()
+  // ref.current is defined when we acces it
+  const ref = useRef<Mesh>(null!)
 
   const [hovered, setHover] = useState(false)
-  const [active, setActive] = useState(false)
 
-  useFrame((state, delta) => (mesh.current.rotation.x += delta))
+  // useFrame(({ clock }) => {
+  //   const elapsedTime = clock.getElapsedTime()
+  //   ref.current.rotation.x = elapsedTime
+  // })
 
   return (
     <>
       <ambientLight intensity={0.1} />
       <directionalLight color='red' position={[0, 0, 5]} />
       <mesh
-        ref={mesh}
-        scale={active ? 1.5 : 1}
-        onClick={event => setActive(!active)}
-        onPointerOver={event => setHover(true)}
-        onPointerOut={event => setHover(false)}
+        ref={ref}
+        scale={1}
+        onClick={() => {}}
+        onPointerOver={() => setHover(true)}
+        onPointerOut={() => setHover(false)}
       >
-        <boxGeometry args={[2, 2, 2]} />
+        <boxGeometry args={[6, 2, 2]} />
         <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
       </mesh>
     </>
