@@ -18,6 +18,7 @@ function AddButton({ setModalOpen }: AddButtonProps) {
       onClick={() => setModalOpen(true)}
     >
       <PlusIcon className='mapButtonIcon' />
+      <p className='mapButtonText'>Add Song</p>
     </button>
   )
 }

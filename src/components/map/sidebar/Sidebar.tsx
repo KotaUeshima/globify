@@ -30,7 +30,7 @@ function Sidebar({ changeCenter }: ChangeCenterProps) {
       {/* Button */}
       <div className='z-10 absolute top-24 right-5'>
         <button
-          className='mapButton font-thin'
+          className='bg-secondary/90 hover:bg-secondary px-3 py-2 text-white globalRounded'
           onClick={() => {
             setOpen(true)
           }}
@@ -42,7 +42,7 @@ function Sidebar({ changeCenter }: ChangeCenterProps) {
       <div
         className={`${
           open ? 'translate-x-0' : 'translate-x-[110%]'
-        } absolute top-24 right-5 z-10 h-[80%] w-[20vw] bg-secondary globalRounded ease-in-out duration-1000 overflow-y-auto`}
+        } absolute top-24 right-5 z-10 h-[60%] w-[20vw] bg-secondary globalRounded ease-in-out duration-1000 overflow-y-auto`}
       >
         {/* Sidebar Navigation */}
         <div className='h-10 mt-2 mx-4 flex justify-between items-center'>

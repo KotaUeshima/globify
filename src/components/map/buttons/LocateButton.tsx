@@ -16,7 +16,10 @@ function LocateButton({ changeCenter, userLocation }: LocateButtonProps) {
   return (
     <button className='mapButton' onClick={findUserLocation}>
       {userLocation ? (
-        <MapPinIcon className='mapButtonIcon' />
+        <>
+          <MapPinIcon className='mapButtonIcon' />
+          <p className='mapButtonText'>My Location</p>
+        </>
       ) : (
         <Spinner />
       )}
