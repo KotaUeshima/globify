@@ -13,8 +13,10 @@ import {
   MarkerClusterer,
   SuperClusterAlgorithm,
 } from '@googlemaps/markerclusterer'
-import { GoogleMap, useLoadScript } from '@react-google-maps/api'
+import { Wrapper } from '@googlemaps/react-wrapper'
+import { useLoadScript, GoogleMap } from '@react-google-maps/api'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createRoot } from 'react-dom/client'
 
 const mapOptions = {
   mapId: process.env.NEXT_PUBLIC_MAP_ID,
@@ -23,7 +25,10 @@ const mapOptions = {
   minZoom: 3,
   maxZoom: 18,
 }
+
 const libraries: any = ['places', 'marker']
+
+type CallBackType = (map: google.maps.Map | null) => void
 
 function Map() {
   const { isLoaded } = useLoadScript({
@@ -34,16 +39,13 @@ function Map() {
   const user: UserInterface = useAppSelector(state => state.user)
   const isLoggedIn: boolean = user.username !== ''
 
-  // should find type for map, there is a library for types
-  type CallBackType = (map: any) => void
-
   // useMemo only reruns based on dependencies
   const center = useMemo<MapLocation>(
     () => ({ lat: 39.8283, lng: -98.5795 }),
     []
   )
   // useRef allows you to persist values between renders
-  const mapRef = useRef<any>(/** @type google.maps.GoogleMap */)
+  const mapRef = useRef<google.maps.Map | null>()
   // useCallback is same as useMemo but for functions
   const onLoad = useCallback<CallBackType>(map => {
     mapRef.current = map
@@ -56,6 +58,7 @@ function Map() {
   )
   const [selectedMarker, setSelectedMarker] = useState<Song | null>(null)
 
+  // retrieve all songs and data of user's location
   useEffect(() => {
     const getSongs = async () => {
       const response = await fetch(`${BACKEND_URL}/songs`)
@@ -99,22 +102,6 @@ function Map() {
       })
       marker.addListener('click', () => {
         const position = new google.maps.LatLng(song.lat, song.lng)
-        // infoWindow.setPosition(position)
-        // infoWindow.setContent(`
-        //   <div className="flex flex-col">
-        //     <div class="p-4 flex flex-row globalRounded bg-secondary">
-        //       <img src=${song.image_url} alt="song-picture" class="w-16 globalRounded" />
-        //       <div class='ml-4 flex flex-col mr-4'>
-        //         <h2 class='text-xl font-thin'>${song.title}</h2>
-        //         <p class='text-base text-gray-400'>by ${song.artist}</p>
-        //       </div>
-        //     </div>
-        //     <iframe src=${song.spotify_url} width="100%" height="30%" title="spotify-song" allowfullscreen='true'
-        //     allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' >
-        //     </iframe>
-        //   </div>
-        // `)
-        // infoWindow.open({ map })
         setSelectedMarker(song)
         changeCenter({ lat: song.lat, lng: song.lng }, zoomLevel.CLOSE)
       })
@@ -142,7 +129,7 @@ function Map() {
               <PlacesSearchBar changeCenter={changeCenter} />
             </div>
             {/* Button Group */}
-            <div className='h-1/4 w-3/4 mx-auto flex flex-col justify-center items-center'>
+            <div className='h-1/4 w-3/4 mx-auto flex flex-col'>
               <div className='h-full w-full flex flex-row justify-center items-center space-x-2'>
                 <HomeButton center={center} changeCenter={changeCenter} />
                 <LocateButton
@@ -176,7 +163,14 @@ function Map() {
             zoom={zoomLevel.HOME}
             onLoad={onLoad}
             options={mapOptions}
-          ></GoogleMap>
+          >
+            <AdvancedMarkers mapRef={mapRef} />
+          </GoogleMap>
+          {/* <Wrapper
+            apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
+            version='beta'
+            libraries={['places', 'marker']}
+          ></Wrapper> */}
         </div>
       )}
     </div>
@@ -184,3 +178,68 @@ function Map() {
 }
 
 export default Map
+
+function MyMap() {}
+
+const testData = [
+  {
+    id: 1,
+    lat: 24,
+    lng: 36,
+  },
+  {
+    id: 2,
+    lat: 34,
+    lng: 36,
+  },
+  {
+    id: 3,
+    lat: 55,
+    lng: 36,
+  },
+]
+
+function AdvancedMarkers({ mapRef }: any) {
+  return (
+    <>
+      {testData.map(({ id, lat, lng }) => {
+        return (
+          <Marker
+            key={id}
+            mapRef={mapRef}
+            position={{ lat: lat, lng: lng }}
+          >
+            <div className='h-32 w-32 bg-pink-500'>
+              <h2>Hello Test</h2>
+            </div>
+          </Marker>
+        )
+      })}
+    </>
+  )
+}
+
+function Marker({ mapRef, children, position }: any) {
+  const markerRef = useRef<any>()
+  const rootRef = useRef<any>()
+
+  useEffect(() => {
+    if (!rootRef.current) {
+      const container = document.createElement('div')
+      rootRef.current = createRoot(container)
+
+      markerRef.current = new google.maps.marker.AdvancedMarkerElement({
+        position,
+        content: container,
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    rootRef.current.render(children)
+    markerRef.current.position = position
+    mapRef.current.map = mapRef
+  }, [mapRef, children, position])
+
+  return <div></div>
+}

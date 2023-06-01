@@ -63,7 +63,9 @@ function Navbar() {
           )}
         </div>
       </div>
-      <hr className='h-[0.5px] bg-white border-none ' />
+      {pathname === routeNames.HOME && (
+        <hr className='h-[0.5px] bg-white border-none ' />
+      )}
     </div>
   )
 }
