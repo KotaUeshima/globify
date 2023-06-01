@@ -9,13 +9,8 @@ import PlacesSearchBar from '@/src/components/map/searchBar/PlacesSearchBar'
 import Sidebar from '@/src/components/map/sidebar/Sidebar'
 import { useAppSelector } from '@/src/redux/store'
 import { BACKEND_URL, zoomLevel } from '@/src/utils/constants'
-import {
-  MarkerClusterer,
-  SuperClusterAlgorithm,
-} from '@googlemaps/markerclusterer'
-import { Wrapper } from '@googlemaps/react-wrapper'
-import { useLoadScript, GoogleMap } from '@react-google-maps/api'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { GoogleMap, useLoadScript } from '@react-google-maps/api'
+import { Dispatch, useCallback, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 
 const mapOptions = {
@@ -26,7 +21,9 @@ const mapOptions = {
   maxZoom: 18,
 }
 
-const libraries: any = ['places', 'marker']
+const libraries: any = ['marker', 'places']
+
+const center: MapLocation = { lat: 39.8283, lng: -98.5795 }
 
 type CallBackType = (map: google.maps.Map | null) => void
 
@@ -39,11 +36,6 @@ function Map() {
   const user: UserInterface = useAppSelector(state => state.user)
   const isLoggedIn: boolean = user.username !== ''
 
-  // useMemo only reruns based on dependencies
-  const center = useMemo<MapLocation>(
-    () => ({ lat: 39.8283, lng: -98.5795 }),
-    []
-  )
   // useRef allows you to persist values between renders
   const mapRef = useRef<google.maps.Map | null>()
   // useCallback is same as useMemo but for functions
@@ -84,7 +76,7 @@ function Map() {
   // add markers after songs have been intiialized from backend
   useEffect(() => {
     if (songs.length > 0) {
-      addMarkers(mapRef.current)
+      // addMarkers(mapRef.current)
     }
   }, [songs])
 
@@ -93,27 +85,27 @@ function Map() {
     mapRef.current?.setZoom(zoom)
   }
 
-  const addMarkers = (map: any) => {
-    const infoWindow = new google.maps.InfoWindow()
+  // const addMarkers = (map: any) => {
+  //   const infoWindow = new google.maps.InfoWindow()
 
-    const markers = songs.map(song => {
-      const marker = new google.maps.Marker({
-        position: { lat: song.lat, lng: song.lng },
-      })
-      marker.addListener('click', () => {
-        const position = new google.maps.LatLng(song.lat, song.lng)
-        setSelectedMarker(song)
-        changeCenter({ lat: song.lat, lng: song.lng }, zoomLevel.CLOSE)
-      })
-      return marker
-    })
+  //   const markers = songs.map(song => {
+  //     const marker = new google.maps.Marker({
+  //       position: { lat: song.lat, lng: song.lng },
+  //     })
+  //     marker.addListener('click', () => {
+  //       const position = new google.maps.LatLng(song.lat, song.lng)
+  //       setSelectedMarker(song)
+  //       changeCenter({ lat: song.lat, lng: song.lng }, zoomLevel.CLOSE)
+  //     })
+  //     return marker
+  //   })
 
-    new MarkerClusterer({
-      markers,
-      map,
-      algorithm: new SuperClusterAlgorithm({ radius: 200 }),
-    })
-  }
+  //   new MarkerClusterer({
+  //     markers,
+  //     map,
+  //     algorithm: new SuperClusterAlgorithm({ radius: 200 }),
+  //   })
+  // }
 
   return (
     <div className='h-full w-screen'>
@@ -164,13 +156,13 @@ function Map() {
             onLoad={onLoad}
             options={mapOptions}
           >
-            <AdvancedMarkers mapRef={mapRef} />
+            <AdvancedMarkers
+              map={mapRef.current}
+              songs={songs}
+              setSelectedMarker={setSelectedMarker}
+              changeCenter={changeCenter}
+            />
           </GoogleMap>
-          {/* <Wrapper
-            apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-            version='beta'
-            libraries={['places', 'marker']}
-          ></Wrapper> */}
         </div>
       )}
     </div>
@@ -179,38 +171,48 @@ function Map() {
 
 export default Map
 
-function MyMap() {}
+interface AdvancedMarkersProps extends ChangeCenterProps {
+  map: google.maps.Map | null | undefined
+  songs: Song[]
+  setSelectedMarker: Dispatch<Song>
+}
 
-const testData = [
-  {
-    id: 1,
-    lat: 24,
-    lng: 36,
-  },
-  {
-    id: 2,
-    lat: 34,
-    lng: 36,
-  },
-  {
-    id: 3,
-    lat: 55,
-    lng: 36,
-  },
-]
+function AdvancedMarkers({
+  map,
+  songs,
+  setSelectedMarker,
+  changeCenter,
+}: AdvancedMarkersProps) {
+  const [highlight, setHighlight] = useState<number>(0)
 
-function AdvancedMarkers({ mapRef }: any) {
   return (
     <>
-      {testData.map(({ id, lat, lng }) => {
+      {songs.map(song => {
         return (
           <Marker
-            key={id}
-            mapRef={mapRef}
-            position={{ lat: lat, lng: lng }}
+            key={song.id}
+            map={map}
+            position={{ lat: song.lat, lng: song.lng }}
           >
-            <div className='h-32 w-32 bg-pink-500'>
-              <h2>Hello Test</h2>
+            <div
+              className={`bg-secondary globalRounded ${
+                highlight === song.id ? 'p-4 ' : ''
+              }`}
+              onMouseEnter={() => setHighlight(song.id)}
+              onMouseLeave={() => setHighlight(0)}
+              onClick={() => {
+                setSelectedMarker(song)
+                changeCenter(
+                  { lat: song.lat, lng: song.lng },
+                  zoomLevel.CLOSE
+                )
+              }}
+            >
+              <img
+                src={song.image_url}
+                alt='album-cover'
+                className='w-10 globalRounded'
+              />
             </div>
           </Marker>
         )
@@ -219,9 +221,9 @@ function AdvancedMarkers({ mapRef }: any) {
   )
 }
 
-function Marker({ mapRef, children, position }: any) {
-  const markerRef = useRef<any>()
+function Marker({ map, children, position }: any) {
   const rootRef = useRef<any>()
+  const markerRef = useRef<any>()
 
   useEffect(() => {
     if (!rootRef.current) {
@@ -232,14 +234,15 @@ function Marker({ mapRef, children, position }: any) {
         position,
         content: container,
       })
+      markerRef.current.addListener('click', () => {})
     }
   }, [])
 
   useEffect(() => {
     rootRef.current.render(children)
     markerRef.current.position = position
-    mapRef.current.map = mapRef
-  }, [mapRef, children, position])
+    markerRef.current.map = map
+  }, [map, children, position])
 
-  return <div></div>
+  return <></>
 }

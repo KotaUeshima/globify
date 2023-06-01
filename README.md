@@ -44,6 +44,41 @@ Hosted on Vercel: [Link to project]('https://globify-802il2p4c-kotaueshima.verce
 - Account: kota.j.ueshima@gmail.com
 - Project Name: globify
 
+**@googlemaps/react-wrapper**
+
+```
+    const mapOptions = {
+        mapId: process.env.NEXT_PUBLIC_MAP_ID,
+        center: { lat: 39.8283, lng: -98.5795 },
+        zoom: 5,
+        disableDefaultUI: true,
+    }
+
+    <Wrapper
+    apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
+    libraries={['marker', 'places']}
+    >
+        <MyMap />
+    </Wrapper>
+
+
+    function MyMap() {
+        const [map, setMap] = useState<google.maps.Map>()
+        const mapRef = useRef<any>()
+
+        useEffect(() => {
+            setMap(new window.google.maps.Map(mapRef.current, mapOptions))
+        }, [])
+
+        return (
+            <>
+            <div ref={mapRef} className='h-[90vh] w-3/4' />
+            {map && <AdvancedMarkers map={map} />}
+            </>
+        )
+    }
+```
+
 **Spotify**
 
 - Account: rachiko38
