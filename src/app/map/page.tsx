@@ -1,4 +1,5 @@
 'use client'
+import LoadingScreen from '@/src/components/loaders/LoadingScreen'
 import SelectedSongPlayer from '@/src/components/map/SelectedSongPlayer'
 import AddButton from '@/src/components/map/buttons/AddButton'
 import HomeButton from '@/src/components/map/buttons/HomeButton'
@@ -10,7 +11,14 @@ import Sidebar from '@/src/components/map/sidebar/Sidebar'
 import { useAppSelector } from '@/src/redux/store'
 import { BACKEND_URL, zoomLevel } from '@/src/utils/constants'
 import { GoogleMap, useLoadScript } from '@react-google-maps/api'
-import { Dispatch, useCallback, useEffect, useRef, useState } from 'react'
+import {
+  Dispatch,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { createRoot } from 'react-dom/client'
 
 const mapOptions = {
@@ -73,45 +81,21 @@ function Map() {
     findUserLocation()
   }, [])
 
-  // add markers after songs have been intiialized from backend
-  useEffect(() => {
-    if (songs.length > 0) {
-      // addMarkers(mapRef.current)
-    }
-  }, [songs])
+  // load page once songs, location, and map have all been intialized
+  const loading = useMemo<boolean>(() => {
+    return !isLoaded
+  }, [isLoaded])
 
   const changeCenter = (newCenter: MapLocation, zoom: number) => {
     mapRef.current?.panTo(newCenter)
     mapRef.current?.setZoom(zoom)
   }
 
-  // const addMarkers = (map: any) => {
-  //   const infoWindow = new google.maps.InfoWindow()
-
-  //   const markers = songs.map(song => {
-  //     const marker = new google.maps.Marker({
-  //       position: { lat: song.lat, lng: song.lng },
-  //     })
-  //     marker.addListener('click', () => {
-  //       const position = new google.maps.LatLng(song.lat, song.lng)
-  //       setSelectedMarker(song)
-  //       changeCenter({ lat: song.lat, lng: song.lng }, zoomLevel.CLOSE)
-  //     })
-  //     return marker
-  //   })
-
-  //   new MarkerClusterer({
-  //     markers,
-  //     map,
-  //     algorithm: new SuperClusterAlgorithm({ radius: 200 }),
-  //   })
-  // }
-
   return (
     <div className='h-full w-screen'>
       {/* Loading Screen */}
-      {!isLoaded ? (
-        <h1>Loading...</h1>
+      {loading ? (
+        <LoadingScreen />
       ) : (
         <div className='flex flex-row'>
           {/* Main Menu */}
@@ -196,7 +180,9 @@ function AdvancedMarkers({
           >
             <div
               className={`bg-secondary globalRounded ${
-                highlight === song.id ? 'p-4 ' : ''
+                highlight === song.id
+                  ? 'scale-150 globalTransition'
+                  : 'scale-100 globalTransition'
               }`}
               onMouseEnter={() => setHighlight(song.id)}
               onMouseLeave={() => setHighlight(0)}
@@ -233,6 +219,8 @@ function Marker({ map, children, position }: any) {
       markerRef.current = new google.maps.marker.AdvancedMarkerElement({
         position,
         content: container,
+        collisionBehavior:
+          google.maps.CollisionBehavior.OPTIONAL_AND_HIDES_LOWER_PRIORITY,
       })
       markerRef.current.addListener('click', () => {})
     }

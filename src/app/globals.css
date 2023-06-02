@@ -18,11 +18,11 @@
   }
 
   .mapButtonIcon {
-    @apply w-6 lg:h-7 w-6 lg:w-7 text-white;
+    @apply h-6 w-6 text-white;
   }
 
   .mapButtonText {
-    @apply font-light text-xs;
+    @apply font-medium text-xs;
   }
 
   .loginHeader {

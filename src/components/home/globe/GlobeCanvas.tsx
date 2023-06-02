@@ -1,14 +1,15 @@
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
+import GlobeLoader from '../../loaders/GlobeLoader'
 import Globe from './Globe'
 
 function GlobeCanvas() {
   return (
+    // <Suspense fallback={<GlobeLoader />}>
     <Canvas>
-      <Suspense fallback={null}>
-        <Globe />
-      </Suspense>
+      <Globe />
     </Canvas>
+    // </Suspense>
   )
 }
 

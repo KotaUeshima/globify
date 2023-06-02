@@ -23,6 +23,7 @@ npm install react-redux
 npm install @reduxjs/toolkit
 npm install @googlemaps/markerclusterer
 npm install @types/google.maps
+npm install --save react-spinners
 ```
 
 ## Deployment
@@ -47,36 +48,68 @@ Hosted on Vercel: [Link to project]('https://globify-802il2p4c-kotaueshima.verce
 **@googlemaps/react-wrapper**
 
 ```
-    const mapOptions = {
-        mapId: process.env.NEXT_PUBLIC_MAP_ID,
-        center: { lat: 39.8283, lng: -98.5795 },
-        zoom: 5,
-        disableDefaultUI: true,
+const mapOptions = {
+    mapId: process.env.NEXT_PUBLIC_MAP_ID,
+    center: { lat: 39.8283, lng: -98.5795 },
+    zoom: 5,
+    disableDefaultUI: true,
+}
+
+<Wrapper
+apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
+libraries={['marker', 'places']}
+>
+    <MyMap />
+</Wrapper>
+
+
+function MyMap() {
+    const [map, setMap] = useState<google.maps.Map>()
+    const mapRef = useRef<any>()
+
+    useEffect(() => {
+        setMap(new window.google.maps.Map(mapRef.current, mapOptions))
+    }, [])
+
+    return (
+        <>
+        <div ref={mapRef} className='h-[90vh] w-3/4' />
+        {map && <AdvancedMarkers map={map} />}
+        </>
+    )
+}
+```
+
+**Add Normal Markers**
+
+```
+useEffect(() => {
+    if (songs.length > 0) {
+        addMarkers(mapRef.current)
     }
+}, [songs])
 
-    <Wrapper
-    apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-    libraries={['marker', 'places']}
-    >
-        <MyMap />
-    </Wrapper>
+const addMarkers = (map: any) => {
+    const infoWindow = new google.maps.InfoWindow()
 
+    const markers = songs.map(song => {
+        const marker = new google.maps.Marker({
+            position: { lat: song.lat, lng: song.lng },
+        })
+        marker.addListener('click', () => {
+            const position = new google.maps.LatLng(song.lat, song.lng)
+            setSelectedMarker(song)
+            changeCenter({ lat: song.lat, lng: song.lng }, zoomLevel.CLOSE)
+        })
+        return marker
+    })
 
-    function MyMap() {
-        const [map, setMap] = useState<google.maps.Map>()
-        const mapRef = useRef<any>()
-
-        useEffect(() => {
-            setMap(new window.google.maps.Map(mapRef.current, mapOptions))
-        }, [])
-
-        return (
-            <>
-            <div ref={mapRef} className='h-[90vh] w-3/4' />
-            {map && <AdvancedMarkers map={map} />}
-            </>
-        )
-    }
+    new MarkerClusterer({
+        markers,
+        map,
+        algorithm: new SuperClusterAlgorithm({ radius: 200 }),
+    })
+}
 ```
 
 **Spotify**
