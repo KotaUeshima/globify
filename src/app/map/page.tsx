@@ -44,13 +44,6 @@ function Map() {
   const user: UserInterface = useAppSelector(state => state.user)
   const isLoggedIn: boolean = user.username !== ''
 
-  // useRef allows you to persist values between renders
-  const mapRef = useRef<google.maps.Map | null>()
-  // useCallback is same as useMemo but for functions
-  const onLoad = useCallback<CallBackType>(map => {
-    mapRef.current = map
-  }, [])
-
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [songs, setSongs] = useState<Song[]>([])
   const [userLocation, setUserLocation] = useState<MapLocation | null>(
@@ -81,14 +74,20 @@ function Map() {
     findUserLocation()
   }, [])
 
+  // useRef allows you to persist values between renders
+  const [mapRef, setMapRef] = useState<google.maps.Map | null>(null)
+  const onLoad = useCallback<CallBackType>(map => {
+    setMapRef(map)
+  }, [])
+
   // load page once songs, location, and map have all been intialized
   const loading = useMemo<boolean>(() => {
-    return !isLoaded
-  }, [isLoaded])
+    return !isLoaded || songs.length === 0 || userLocation === null
+  }, [isLoaded, songs, userLocation])
 
   const changeCenter = (newCenter: MapLocation, zoom: number) => {
-    mapRef.current?.panTo(newCenter)
-    mapRef.current?.setZoom(zoom)
+    mapRef?.panTo(newCenter)
+    mapRef?.setZoom(zoom)
   }
 
   return (
@@ -141,7 +140,7 @@ function Map() {
             options={mapOptions}
           >
             <AdvancedMarkers
-              map={mapRef.current}
+              map={mapRef}
               songs={songs}
               setSelectedMarker={setSelectedMarker}
               changeCenter={changeCenter}
@@ -168,6 +167,8 @@ function AdvancedMarkers({
   changeCenter,
 }: AdvancedMarkersProps) {
   const [highlight, setHighlight] = useState<number>(0)
+
+  console.log('Advanced Markers Map >>>', map)
 
   return (
     <>
