@@ -14,15 +14,15 @@
   }
 
   .mapButton {
-    @apply h-3/4 w-1/2 bg-primary/90 hover:bg-primary globalRounded flex flex-col space-y-2 justify-center items-center;
+    @apply h-3/4 w-1/2 bg-gray-100 hover:bg-gray-300 globalRounded flex flex-col space-y-2 justify-center items-center;
   }
 
   .mapButtonIcon {
-    @apply h-6 w-6 text-white;
+    @apply h-6 w-6 text-primary;
   }
 
   .mapButtonText {
-    @apply font-medium text-xs;
+    @apply font-medium text-xs text-primary;
   }
 
   .loginHeader {

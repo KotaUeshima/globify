@@ -19,7 +19,7 @@ function SidebarTrackCard({
         selectedUserSong && selectedUserSong.id === userSong.id
           ? 'bg-gray-700'
           : 'bg-transparent hover:bg-gray-500'
-      } mt-2 p-1 flex flex-row globalRounded  globalTransition`}
+      } mt-2 p-2 flex flex-row globalRounded  globalTransition`}
       onClick={() => {
         setSelectedUserSong(userSong)
         changeCenter(
@@ -34,8 +34,10 @@ function SidebarTrackCard({
         className='w-20 globalRounded'
       />
       <div className='ml-4 flex flex-col mr-4'>
-        <h2 className='text-base font-thin'>{userSong.title}</h2>
-        <p className='text-sm text-gray-400'>by {userSong.artist}</p>
+        <h2 className='text-base font-light'>{userSong.title}</h2>
+        <p className='text-sm font-thin text-gray-400'>
+          by {userSong.artist}
+        </p>
       </div>
     </div>
   )

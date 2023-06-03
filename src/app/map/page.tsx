@@ -98,14 +98,14 @@ function Map() {
       ) : (
         <div className='flex flex-row'>
           {/* Main Menu */}
-          <div className='h-[90vh] w-1/4 flex flex-col'>
+          <div className='bg-secondary h-[90vh] w-1/4 flex flex-col'>
             {/* Search Bar */}
-            <div className='h-1/6 w-full flex justify-center items-center'>
+            <div className='h-[10%] w-full flex justify-center items-center'>
               <PlacesSearchBar changeCenter={changeCenter} />
             </div>
             {/* Button Group */}
             <div className='h-1/4 w-3/4 mx-auto flex flex-col'>
-              <div className='h-full w-full flex flex-row justify-center items-center space-x-2'>
+              <div className='h-full w-full flex flex-row justify-center items-end space-x-2'>
                 <HomeButton center={center} changeCenter={changeCenter} />
                 <LocateButton
                   changeCenter={changeCenter}
@@ -180,9 +180,9 @@ function AdvancedMarkers({
             position={{ lat: song.lat, lng: song.lng }}
           >
             <div
-              className={`bg-secondary globalRounded ${
+              className={`bg-secondary rounded-full ${
                 highlight === song.id
-                  ? 'scale-150 globalTransition'
+                  ? 'scale-110 globalTransition'
                   : 'scale-100 globalTransition'
               }`}
               onMouseEnter={() => setHighlight(song.id)}
@@ -198,7 +198,7 @@ function AdvancedMarkers({
               <img
                 src={song.image_url}
                 alt='album-cover'
-                className='w-10 globalRounded'
+                className='w-10 rounded-full'
               />
             </div>
           </Marker>

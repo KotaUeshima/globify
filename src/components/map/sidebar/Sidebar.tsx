@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/src/redux/store'
 import { BACKEND_URL } from '@/src/utils/constants'
-import { XMarkIcon } from '@heroicons/react/24/solid'
+import { ViewColumnsIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { useEffect, useState } from 'react'
 import SidebarTrackCard from './SidebarTrackCard'
 
@@ -30,12 +30,13 @@ function Sidebar({ changeCenter }: ChangeCenterProps) {
       {/* Button */}
       <div className='z-10 absolute top-24 right-5'>
         <button
-          className='bg-secondary/90 hover:bg-secondary px-3 py-2 text-white globalRounded'
+          className='bg-secondary/90 hover:bg-secondary px-3 py-2 text-white globalRounded flex flex-row items-center space-x-2'
           onClick={() => {
             setOpen(true)
           }}
         >
-          View My Songs
+          <ViewColumnsIcon className='h-6 w-6 text-white' />
+          <p className='text-base font-light'>View My Songs</p>
         </button>
       </div>
       {/* Sidebar */}
@@ -46,7 +47,7 @@ function Sidebar({ changeCenter }: ChangeCenterProps) {
       >
         {/* Sidebar Navigation */}
         <div className='h-10 mt-2 mx-4 flex justify-between items-center'>
-          <h2 className='text-white text-2xl font-bold'>My Songs</h2>
+          <h2 className='text-white text-2xl font-medium'>My Songs</h2>
           <XMarkIcon
             onClick={() => setOpen(false)}
             className='h-6 w-6 rounded-full hover:bg-white hover:text-secondary globalTransition cursor-pointer'

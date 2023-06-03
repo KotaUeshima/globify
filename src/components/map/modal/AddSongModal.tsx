@@ -99,8 +99,10 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
                 className='w-10 rounded-md'
               />
               <div className='ml-4 flex flex-col mr-4'>
-                <h2 className='text-sm font-thin'>{selectedTrack.name}</h2>
-                <p className='text-xs text-gray-400'>
+                <h2 className='text-sm font-light'>
+                  {selectedTrack.name}
+                </h2>
+                <p className='text-xs font-thin text-gray-200'>
                   by {selectedTrack.artists[0].name}
                 </p>
               </div>

@@ -13,12 +13,12 @@ function AddButton({ setModalOpen }: AddButtonProps) {
     <button
       disabled={user.username === '' ? true : false}
       className={`mapButton ${
-        user.username === '' ? 'bg-primary/50 hover:bg-primary/50' : ''
+        user.username === '' ? 'bg-gray-500 hover:bg-gray-500' : ''
       }`}
       onClick={() => setModalOpen(true)}
     >
       <PlusIcon className='mapButtonIcon' />
-      <p className='mapButtonText'>Add Song</p>
+      <p className='mapButtonText'>Add</p>
     </button>
   )
 }

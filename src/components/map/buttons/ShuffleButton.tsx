@@ -6,7 +6,7 @@ function ShuffleButton() {
   return (
     <button className='mapButton' onClick={shuffleSong}>
       <ArrowPathIcon className='mapButtonIcon' />
-      <p className='mapButtonText'>Shuffle Song</p>
+      <p className='mapButtonText'>Shuffle</p>
     </button>
   )
 }

@@ -32,8 +32,10 @@ function TrackCard({
         className='w-24 rounded-l-md'
       />
       <div className='ml-4 flex flex-col mr-4'>
-        <h2 className='text-xl font-thin'>{name}</h2>
-        <p className='text-base text-gray-400'>by {artist}</p>
+        <h2 className='text-xl font-light'>{name}</h2>
+        <p className='text-base font-extralight text-gray-400'>
+          by {artist}
+        </p>
       </div>
     </div>
   )
