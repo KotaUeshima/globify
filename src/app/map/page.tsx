@@ -85,9 +85,54 @@ function Map() {
     return !isLoaded || songs.length === 0 || userLocation === null
   }, [isLoaded, songs, userLocation])
 
-  const changeCenter = (newCenter: MapLocation, zoom: number) => {
-    mapRef?.panTo(newCenter)
-    mapRef?.setZoom(zoom)
+  const changeCenter = async (newCenter: MapLocation, newZoom: number) => {
+    if (mapRef) {
+      const currentZoom = mapRef.getZoom()!
+      const currentCenter = mapRef.getCenter()
+      let currentLat = currentCenter?.lat()!
+      let currentLng = currentCenter?.lng()!
+      const newLat = newCenter.lat
+      const newLng = newCenter.lng
+
+      const latDiff = newLat - currentLat
+      const lngDiff = newLng - currentLng
+      const zoomDiff = Math.abs(currentZoom - newZoom)
+
+      const latIncrement = latDiff / zoomDiff
+      const lngIncrement = lngDiff / zoomDiff
+
+      // zooming in
+      if (currentZoom < newZoom) {
+        for (let i = currentZoom; i < newZoom; i++) {
+          await timeout(50)
+          currentLat += latIncrement
+          currentLng += lngIncrement
+          mapRef.panTo({ lat: currentLat, lng: currentLng })
+        }
+        for (let i = currentZoom; i < newZoom; i++) {
+          await timeout(100)
+          mapRef.setZoom(i)
+        }
+      }
+      // zooming out
+      else {
+        for (let i = currentZoom; i >= newZoom; i--) {
+          await timeout(100)
+          mapRef.setZoom(i)
+          console.log(i)
+        }
+        for (let i = currentZoom; i >= newZoom; i--) {
+          await timeout(50)
+          currentLat += latIncrement
+          currentLng += lngIncrement
+          mapRef.panTo({ lat: currentLat, lng: currentLng })
+        }
+      }
+    }
+  }
+
+  function timeout(delay: number) {
+    return new Promise(res => setTimeout(res, delay))
   }
 
   return (
@@ -167,8 +212,6 @@ function AdvancedMarkers({
   changeCenter,
 }: AdvancedMarkersProps) {
   const [highlight, setHighlight] = useState<number>(0)
-
-  console.log('Advanced Markers Map >>>', map)
 
   return (
     <>
