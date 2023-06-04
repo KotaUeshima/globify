@@ -8,7 +8,7 @@ import { usePathname, useRouter } from 'next/navigation'
 
 function Navbar() {
   const user: UserInterface = useAppSelector(state => state.user)
-  const isLoggedIn: boolean = user.username !== ''
+  const isLoggedIn: boolean = user.email !== ''
 
   const router = useRouter()
   const pathname = usePathname()
@@ -18,8 +18,10 @@ function Navbar() {
     localStorage.removeItem('token')
     dispatch(
       addUserToStore({
-        userId: 0,
-        username: '',
+        id: 0,
+        email: '',
+        firstName: '',
+        lastName: '',
       })
     )
     router.push(routeNames.HOME)
@@ -45,10 +47,10 @@ function Navbar() {
           </Link>
         </div>
         {/* Welcome Message + Login/Logout Button*/}
-        <div className='flex flex-row items-center space-x-10'>
+        <div className='flex flex-row items-center space-x-6'>
           {isLoggedIn ? (
             <>
-              <h2 className='text-base font-thin'>Hi {user.username}</h2>
+              <h2 className='text-base font-thin'>Hi {user.firstName}</h2>
               <button onClick={handleLogout} className='navLoginButton'>
                 Logout
               </button>
@@ -58,6 +60,12 @@ function Navbar() {
               <h2 className='text-base font-thin'>Hi Guest</h2>
               <Link href={routeNames.LOGIN} className='navLoginButton'>
                 Login
+              </Link>
+              <Link
+                href={routeNames.SIGNUP}
+                className='navLoginButton bg-primary text-white'
+              >
+                Create Account
               </Link>
             </>
           )}

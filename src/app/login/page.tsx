@@ -8,21 +8,22 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 function Login() {
-  interface LoginUser {
-    username: string
-    password: string
+  const defaultLoginUser: LoginUser = {
+    email: '',
+    password: '',
   }
 
-  const defaultLoginUser: LoginUser = {
-    username: '',
+  const defaultLoginError: LoginError = {
+    email: '',
     password: '',
   }
 
   const [loginUser, setLoginUser] = useState<LoginUser>(defaultLoginUser)
-  const [error, setError] = useState<string>('')
-  // for Next.js routing
+  const [loginButtonActive, setLoginButtonActive] =
+    useState<boolean>(false)
+  const [error, setError] = useState<LoginError>(defaultLoginError)
+
   const router = useRouter()
-  // to dispatch to Redux Store
   const dispatch = useAppDispatch()
 
   const UpdateUserObject = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +32,10 @@ function Login() {
       [e.target.name]: e.target.value,
     }
     setLoginUser(copyLoginUser)
+    // update login button UI
+    setLoginButtonActive(
+      copyLoginUser.email !== '' && copyLoginUser.password !== ''
+    )
   }
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,32 +52,32 @@ function Login() {
       // successful login
       if (response.ok) {
         const data: BackendResponseUser = await response.json()
-        dispatch(
-          addUserToStore({
-            userId: data.user.id,
-            username: data.user.username,
-          })
-        )
+        dispatch(addUserToStore(data.user))
         // set jwt token to local storage
         localStorage.setItem('token', data.jwt)
         router.push(routeNames.MAP)
       }
       // error with login
       else {
-        const data: BackendError = await response.json()
+        const data: LoginBackendError = await response.json()
         throw Error(data.error)
       }
     } catch (e: any) {
       console.error(e)
+      if (e.message === 'Invalid password') {
+        setError({ email: '', password: 'Invalid password' })
+      } else if (e.message === 'Email does not exist') {
+        setError({ email: 'Email does not exist', password: '' })
+      }
     }
   }
 
   return (
-    <div className='absolute top-0 bg-secondary min-h-screen w-screen flex flex-row justify-center items-center'>
+    <div className='overflow-hidden absolute top-0 bg-gray-300 h-screen w-screen flex flex-row justify-center items-center'>
       {/* Back Button */}
       <BackButton />
       {/* White Box */}
-      <div className='w-[40%] bg-white globalRounded flex pt-14 pb-10 drop-shadow-2xl justify-center items-center'>
+      <div className='z-10 w-[60%] lg:w-[550px] bg-white globalRounded md:flex pt-14 pb-10 drop-shadow-2xl justify-center items-center'>
         {/* Form + Header + SignInButton */}
         <div className='flex flex-col space-y-8 w-2/3'>
           <h2 className='loginHeader'>Welcome Back!</h2>
@@ -80,19 +85,29 @@ function Login() {
             className='flex flex-col text-black'
             onSubmit={handleSignUp}
           >
-            <label htmlFor='username' className='text-sm text-black/80'>
-              Username
-            </label>
+            <div className='flex justify-between'>
+              <label htmlFor='email' className='text-sm text-black/80'>
+                Email
+              </label>
+              {error.email && (
+                <p className='loginErrorLabel'>{error.email}</p>
+              )}
+            </div>
             <input
               type='text'
-              name='username'
+              name='email'
               className='loginFormInput'
-              value={loginUser.username}
+              value={loginUser.email}
               onChange={UpdateUserObject}
             />
-            <label htmlFor='password' className='text-sm text-black/80'>
-              Password
-            </label>
+            <div className='flex justify-between'>
+              <label htmlFor='password' className='text-sm text-black/80'>
+                Password
+              </label>
+              {error.password && (
+                <p className='loginErrorLabel'>{error.password}</p>
+              )}
+            </div>
             <input
               type='password'
               name='password'
@@ -100,15 +115,17 @@ function Login() {
               value={loginUser.password}
               onChange={UpdateUserObject}
             />
-            <div className='mt-2 h-10 lg:h-4 flex flex-col lg:flow-root'>
-              <p className='h-5 float-left text-sm text-errorRed'>
-                {error}
-              </p>
-              <a className='float-right text-sm text-primary/80 font-bold cursor-pointer'>
+            <div className='mt-2 h-4 flow-root'>
+              <a className='float-right loginForgotPassword'>
                 Forgot Password?
               </a>
             </div>
-            <button className='mt-4 rounded-md p-3 text-white bg-primary/20 hover:bg-primary ease-in-out duration-500'>
+            <button
+              className={`${
+                loginButtonActive ? 'bg-primary' : 'bg-primary/20'
+              } mt-4 rounded-md p-3 text-white`}
+              disabled={!loginButtonActive}
+            >
               Login
             </button>
           </form>
@@ -154,6 +171,8 @@ function Login() {
           </div>
         </div>
       </div>
+      {/* Background Diagonal Shape */}
+      <div className='-rotate-45 absolute bottom-10 h-[50%] w-[200vw] bg-primary/30 '></div>
     </div>
   )
 }

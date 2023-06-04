@@ -10,6 +10,8 @@ import PlacesSearchBar from '@/src/components/map/searchBar/PlacesSearchBar'
 import Sidebar from '@/src/components/map/sidebar/Sidebar'
 import { useAppSelector } from '@/src/redux/store'
 import { BACKEND_URL, zoomLevel } from '@/src/utils/constants'
+import timeout from '@/src/utils/functions/timeout'
+import useAuthorization from '@/src/utils/hooks/useAuthorization'
 import { GoogleMap, useLoadScript } from '@react-google-maps/api'
 import {
   Dispatch,
@@ -36,13 +38,15 @@ const center: MapLocation = { lat: 39.8283, lng: -98.5795 }
 type CallBackType = (map: google.maps.Map | null) => void
 
 function Map() {
+  useAuthorization()
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: libraries,
   })
 
   const user: UserInterface = useAppSelector(state => state.user)
-  const isLoggedIn: boolean = user.username !== ''
+  const isLoggedIn: boolean = user.email !== ''
 
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [songs, setSongs] = useState<Song[]>([])
@@ -104,35 +108,30 @@ function Map() {
       // zooming in
       if (currentZoom < newZoom) {
         for (let i = currentZoom; i < newZoom; i++) {
-          await timeout(50)
+          await timeout(25)
           currentLat += latIncrement
           currentLng += lngIncrement
           mapRef.panTo({ lat: currentLat, lng: currentLng })
         }
         for (let i = currentZoom; i < newZoom; i++) {
-          await timeout(100)
+          await timeout(75)
           mapRef.setZoom(i)
         }
       }
       // zooming out
       else {
         for (let i = currentZoom; i >= newZoom; i--) {
-          await timeout(100)
+          await timeout(75)
           mapRef.setZoom(i)
-          console.log(i)
         }
         for (let i = currentZoom; i >= newZoom; i--) {
-          await timeout(50)
+          await timeout(25)
           currentLat += latIncrement
           currentLng += lngIncrement
           mapRef.panTo({ lat: currentLat, lng: currentLng })
         }
       }
     }
-  }
-
-  function timeout(delay: number) {
-    return new Promise(res => setTimeout(res, delay))
   }
 
   return (

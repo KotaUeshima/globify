@@ -17,20 +17,52 @@ interface ChangeCenterProps {
 */
 
 interface UserInterface {
-  userId: number
-  username: string
+  id: number
+  email: string
+  firstName: string
+  lastName: string
 }
 
 interface BackendResponseUser {
   user: {
     id: number
-    username: string
+    email: string
+    firstName: string
+    lastName: string
   }
   jwt: string
 }
 
-interface BackendError {
+interface LoginUser {
+  email: string
+  password: string
+}
+
+interface LoginError {
+  email: string
+  password: string
+}
+
+interface LoginBackendError {
   error: string
+}
+
+interface SignUpUser {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+}
+
+interface SignUpError {
+  firstName: string[]
+  lastName: string[]
+  email: string[]
+  password: string[]
+}
+
+interface SignUpBackendError {
+  errors: string[]
 }
 
 /*

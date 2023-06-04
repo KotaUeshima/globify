@@ -15,9 +15,7 @@ function Sidebar({ changeCenter }: ChangeCenterProps) {
 
   useEffect(() => {
     const getUserSongs = async () => {
-      const response = await fetch(
-        `${BACKEND_URL}/user_songs/${user.userId}`
-      )
+      const response = await fetch(`${BACKEND_URL}/user_songs/${user.id}`)
       const data: Song[] = await response.json()
       setUserSongs(data)
     }

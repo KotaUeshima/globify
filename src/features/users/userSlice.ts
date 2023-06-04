@@ -2,8 +2,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 const initialState: UserInterface = {
-  userId: 0,
-  username: '',
+  id: 0,
+  email: '',
+  firstName: '',
+  lastName: '',
 }
 
 const userSlice = createSlice({
@@ -11,8 +13,10 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     addUserToStore: (state, action: PayloadAction<UserInterface>) => {
-      state.userId = action.payload.userId
-      state.username = action.payload.username
+      state.id = action.payload.id
+      state.email = action.payload.email
+      state.firstName = action.payload.firstName
+      state.lastName = action.payload.lastName
     },
   },
 })

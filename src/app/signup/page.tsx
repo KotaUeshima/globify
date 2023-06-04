@@ -1,17 +1,13 @@
 'use client'
 import BackButton from '@/src/components/BackButton'
-import { routeNames } from '@/src/utils/constants'
+import { addUserToStore } from '@/src/features/users/userSlice'
+import { useAppDispatch } from '@/src/redux/store'
+import { BACKEND_URL, routeNames } from '@/src/utils/constants'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 function Signup() {
-  interface SignUpUser {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-  }
-
   const defaultSignUpUser: SignUpUser = {
     firstName: '',
     lastName: '',
@@ -19,11 +15,21 @@ function Signup() {
     password: '',
   }
 
+  const defaultError: SignUpError = {
+    firstName: [],
+    lastName: [],
+    email: [],
+    password: [],
+  }
+
   const [signUpUser, setSignUpUser] =
     useState<SignUpUser>(defaultSignUpUser)
-  const [error, setError] = useState<string>('')
+  const [error, setError] = useState<SignUpError>(defaultError)
+  const [signupButtonActive, setSignupButtonActive] =
+    useState<boolean>(false)
 
-  //   const router = useRouter()
+  const router = useRouter()
+  const dispatch = useAppDispatch()
 
   const UpdateUserObject = (e: React.ChangeEvent<HTMLInputElement>) => {
     const copySignUpUser = {
@@ -31,20 +37,62 @@ function Signup() {
       [e.target.name]: e.target.value,
     }
     setSignUpUser(copySignUpUser)
+    // update signin button UI
+    setSignupButtonActive(
+      copySignUpUser.firstName !== '' &&
+        copySignUpUser.lastName !== '' &&
+        copySignUpUser.email !== '' &&
+        copySignUpUser.password !== ''
+    )
   }
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    try {
+      const response = await fetch(`${BACKEND_URL}/users`, {
+        method: 'POST',
+        headers: {
+          Accepts: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user: signUpUser }),
+      })
+      // successful signup
+      if (response.ok) {
+        const data: BackendResponseUser = await response.json()
+        dispatch(addUserToStore(data.user))
+        // set jwt token to local storage
+        localStorage.setItem('token', data.jwt)
+        router.push(routeNames.MAP)
+      }
+      // error with signup
+      else {
+        const data: SignUpBackendError = await response.json()
+        const copyError = { ...defaultError }
+        for (let errorMessage of data.errors) {
+          if (errorMessage.split(' ')[0] === 'Email') {
+            copyError.email.push(errorMessage)
+          } else if (errorMessage.split(' ')[0] === 'Password') {
+            copyError.password.push(errorMessage)
+          }
+        }
+        setError(copyError)
+      }
+    } catch (e: any) {
+      console.error(e)
+    }
   }
 
   return (
-    <div className='absolute top-0 bg-secondary min-h-screen w-screen flex flex-row items-center justify-center'>
+    <div className='overflow-hidden absolute top-0 bg-gray-300 h-screen w-screen flex flex-row items-center justify-center'>
       {/* Back Button */}
       <BackButton />
       {/* Image on Left Side */}
-      <div className='w-1/2 flex justify-center items-center'>Hello</div>
+      <div className='hidden w-1/2 lg:flex justify-center items-center'>
+        <div className='h-[80%] w-[40%] bg-white'></div>
+      </div>
       {/* Form + Header + SignInButton */}
-      <div className='w-[40%] bg-white globalRounded flex pt-14 pb-10 drop-shadow-2xl justify-center items-center'>
+      <div className='z-10 w-[60%] lg:w-[600px] bg-white globalRounded flex pt-14 pb-10 drop-shadow-2xl justify-center items-center'>
         <div className='flex flex-col space-y-8 w-2/3'>
           <h2 className='loginHeader'>Create your account</h2>
           <form className='flex flex-col' onSubmit={handleSignUp}>
@@ -68,9 +116,14 @@ function Signup() {
               value={signUpUser.lastName}
               onChange={UpdateUserObject}
             />
-            <label htmlFor='email' className='formLabel'>
-              Email
-            </label>
+            <div className='flex justify-between'>
+              <label htmlFor='email' className='formLabel'>
+                Email
+              </label>
+              {error.email.length !== 0 && (
+                <p className='loginErrorLabel'>{error.email[0]}</p>
+              )}
+            </div>
             <input
               type='text'
               name='email'
@@ -78,9 +131,14 @@ function Signup() {
               value={signUpUser.email}
               onChange={UpdateUserObject}
             />
-            <label htmlFor='email' className='formLabel'>
-              Password
-            </label>
+            <div className='flex justify-between'>
+              <label htmlFor='email' className='formLabel'>
+                Password
+              </label>
+              {error.password.length !== 0 && (
+                <p className='loginErrorLabel'>{error.password[0]}</p>
+              )}
+            </div>
             <input
               type='password'
               name='password'
@@ -88,15 +146,17 @@ function Signup() {
               value={signUpUser.password}
               onChange={UpdateUserObject}
             />
-            <div className='mt-2 h-10 lg:h-4 flex flex-col lg:flow-root'>
-              <p className='h-4 float-left text-sm text-errorRed'>
-                {error}
-              </p>
-              <a className='float-right text-sm text-primary/80 font-bold cursor-pointer'>
+            <div className='mt-2 h-4 flow-root'>
+              <a className='float-right loginForgotPassword'>
                 Forgot Password?
               </a>
             </div>
-            <button className='mt-4 rounded-md p-3 text-white bg-primary/20 hover:bg-primary ease-in-out duration-500'>
+            <button
+              className={`${
+                signupButtonActive ? 'bg-primary' : 'bg-primary/20'
+              } mt-4 rounded-md p-3 text-white`}
+              disabled={!signupButtonActive}
+            >
               Create account
             </button>
           </form>
@@ -112,6 +172,8 @@ function Signup() {
           </div>
         </div>
       </div>
+      {/* Background Diagonal Shape */}
+      <div className='-rotate-45 absolute bottom-0 h-[50%] w-[200vw] bg-primary/30 '></div>
     </div>
   )
 }

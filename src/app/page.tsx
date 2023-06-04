@@ -3,7 +3,7 @@ import { routeNames } from '@/src/utils/constants'
 import Link from 'next/link'
 import HomeTrackCard from '../components/home/HomeTrackCard'
 import GlobeCanvas from '../components/home/globe/GlobeCanvas'
-import useAuthorization from '../utils/useAuthorization'
+import useAuthorization from '../utils/hooks/useAuthorization'
 
 export default function Home() {
   // check if user is authorized

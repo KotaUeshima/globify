@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import { addUserToStore } from '../features/users/userSlice'
-import { useAppDispatch } from '../redux/store'
-import { BACKEND_URL } from './constants'
+import { addUserToStore } from '../../features/users/userSlice'
+import { useAppDispatch } from '../../redux/store'
+import { BACKEND_URL } from '../constants'
 
 const useAuthorization = () => {
   const dispatch = useAppDispatch()
@@ -16,12 +16,7 @@ const useAuthorization = () => {
       // user already logged in
       if (response.ok) {
         const data = await response.json()
-        dispatch(
-          addUserToStore({
-            userId: data.user.id,
-            username: data.user.username,
-          })
-        )
+        dispatch(addUserToStore(data.user))
       }
     }
 

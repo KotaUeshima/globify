@@ -22,7 +22,7 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
       const songObj = {
         title: selectedTrack.name,
         artist: selectedTrack.artists[0].name,
-        user_id: user.userId,
+        user_id: user.id,
         image_url: selectedTrack.album.images[0].url,
         lat: userLocation.lat,
         lng: userLocation.lng,
@@ -33,8 +33,6 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
           25
         )}?utm_source=generator`,
       }
-
-      console.log(songObj)
 
       const addSongParams = {
         method: 'POST',
@@ -54,7 +52,7 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
   return (
     <div className='z-20 h-full w-screen fixed inset-0 bg-gray-600/50 flex justify-center items-center'>
       {/* Actual Modal */}
-      <div className='h-[75vh] w-1/3 flex flex-col bg-secondary px-4 pb-4 globalRounded'>
+      <div className='h-[75vh] w-3/4 md:w-[500px] flex flex-col bg-secondary px-4 pb-4 globalRounded'>
         {/* Navigation Bar */}
         <div className='h-10 py-2 flex justify-end items-center'>
           <XMarkIcon
