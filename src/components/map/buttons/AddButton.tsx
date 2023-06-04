@@ -11,9 +11,9 @@ function AddButton({ setModalOpen }: AddButtonProps) {
 
   return (
     <button
-      disabled={user.username === '' ? true : false}
+      disabled={user.email === '' ? true : false}
       className={`mapButton ${
-        user.username === '' ? 'bg-gray-500 hover:bg-gray-500' : ''
+        user.email === '' ? 'bg-gray-500 hover:bg-gray-500' : ''
       }`}
       onClick={() => setModalOpen(true)}
     >
