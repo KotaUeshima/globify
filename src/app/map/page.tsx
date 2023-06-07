@@ -98,33 +98,60 @@ function Map() {
       const newLat = newCenter.lat
       const newLng = newCenter.lng
 
+      console.log('Current Lat >>>', currentLat)
+      console.log('Current Lng >>>', currentLng)
+      console.log('New Lat >>>', newLat)
+      console.log('New Lng >>>', newLng)
+
       const latDiff = newLat - currentLat
       const lngDiff = newLng - currentLng
-      const zoomDiff = Math.abs(currentZoom - newZoom)
+      let zoomDiff = Math.abs(currentZoom - newZoom)
 
-      const latIncrement = latDiff / zoomDiff
-      const lngIncrement = lngDiff / zoomDiff
+      console.log('Old Zoom >>>', currentZoom)
+      console.log('New Zoom >>>', newZoom)
+      console.log('Zoom Diff >>>', zoomDiff)
+      // if no zooming assign to arbitrary value
+      if (zoomDiff === 0) zoomDiff = 6
+      const latIncrement = latDiff / (zoomDiff + 1)
+      const lngIncrement = lngDiff / (zoomDiff + 1)
 
       // zooming in
       if (currentZoom < newZoom) {
-        for (let i = currentZoom; i < newZoom; i++) {
+        for (let i = currentZoom; i <= newZoom; i++) {
           await timeout(25)
           currentLat += latIncrement
           currentLng += lngIncrement
+          console.log('currentLat >>>', currentLat)
+          console.log('currentLng >>>', currentLng)
           mapRef.panTo({ lat: currentLat, lng: currentLng })
         }
-        for (let i = currentZoom; i < newZoom; i++) {
-          await timeout(75)
+        for (let i = currentZoom; i <= newZoom; i++) {
+          await timeout(50)
+          console.log('zoom >>>', i)
           mapRef.setZoom(i)
         }
+        mapRef.setZoom(newZoom)
       }
       // zooming out
-      else {
+      else if (currentZoom > newZoom) {
         for (let i = currentZoom; i >= newZoom; i--) {
-          await timeout(75)
+          await timeout(50)
+          console.log('zoom >>>', i)
           mapRef.setZoom(i)
         }
+        mapRef.setZoom(newZoom)
         for (let i = currentZoom; i >= newZoom; i--) {
+          await timeout(25)
+          currentLat += latIncrement
+          currentLng += lngIncrement
+          console.log('currentLat >>>', currentLat)
+          console.log('currentLng >>>', currentLng)
+          mapRef.panTo({ lat: currentLat, lng: currentLng })
+        }
+      }
+      // no zooming
+      else {
+        for (let i = 0; i < zoomDiff; i++) {
           await timeout(25)
           currentLat += latIncrement
           currentLng += lngIncrement
@@ -222,10 +249,8 @@ function AdvancedMarkers({
             position={{ lat: song.lat, lng: song.lng }}
           >
             <div
-              className={`bg-secondary rounded-full ${
-                highlight === song.id
-                  ? 'scale-110 globalTransition'
-                  : 'scale-100 globalTransition'
+              className={`bg-secondary flex flex-row globalRounded globalTransition ${
+                highlight === song.id ? 'scale-110' : 'scale-100'
               }`}
               onMouseEnter={() => setHighlight(song.id)}
               onMouseLeave={() => setHighlight(0)}
@@ -240,8 +265,11 @@ function AdvancedMarkers({
               <img
                 src={song.image_url}
                 alt='album-cover'
-                className='w-10 rounded-full'
+                className='w-12 p-1 globalRounded'
               />
+              <p className='text-xs text-gray-300 p-1 h-10 w-10 overflow-hidden'>
+                {song.title}
+              </p>
             </div>
           </Marker>
         )
