@@ -12,7 +12,6 @@ function HomeButton({ changeCenter, center }: ChangeCenterProps) {
   return (
     <button className='mapButton' onClick={goHome}>
       <HomeIcon className='mapButtonIcon' />
-      <p className='mapButtonText'>Home</p>
     </button>
   )
 }

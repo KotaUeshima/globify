@@ -1,5 +1,5 @@
 'use client'
-import BackButton from '@/src/components/BackButton'
+import BackButton from '@/src/components/layout/BackButton'
 import { addUserToStore } from '@/src/features/users/userSlice'
 import { useAppDispatch } from '@/src/redux/store'
 import { BACKEND_URL, routeNames } from '@/src/utils/constants'
@@ -31,7 +31,7 @@ function Signup() {
   const router = useRouter()
   const dispatch = useAppDispatch()
 
-  const UpdateUserObject = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateUserObject = (e: React.ChangeEvent<HTMLInputElement>) => {
     const copySignUpUser = {
       ...signUpUser,
       [e.target.name]: e.target.value,
@@ -96,7 +96,7 @@ function Signup() {
         <div className='flex flex-col space-y-8 w-2/3'>
           <h2 className='loginHeader'>Create your account</h2>
           <form className='flex flex-col' onSubmit={handleSignUp}>
-            <label htmlFor='email' className='formLabel'>
+            <label htmlFor='firstName' className='formLabel'>
               First Name
             </label>
             <input
@@ -104,9 +104,9 @@ function Signup() {
               name='firstName'
               className='loginFormInput'
               value={signUpUser.firstName}
-              onChange={UpdateUserObject}
+              onChange={updateUserObject}
             />
-            <label htmlFor='email' className='formLabel'>
+            <label htmlFor='lastName' className='formLabel'>
               Last Name
             </label>
             <input
@@ -114,7 +114,7 @@ function Signup() {
               name='lastName'
               className='loginFormInput'
               value={signUpUser.lastName}
-              onChange={UpdateUserObject}
+              onChange={updateUserObject}
             />
             <div className='flex justify-between'>
               <label htmlFor='email' className='formLabel'>
@@ -129,10 +129,10 @@ function Signup() {
               name='email'
               className='loginFormInput'
               value={signUpUser.email}
-              onChange={UpdateUserObject}
+              onChange={updateUserObject}
             />
             <div className='flex justify-between'>
-              <label htmlFor='email' className='formLabel'>
+              <label htmlFor='password' className='formLabel'>
                 Password
               </label>
               {error.password.length !== 0 && (
@@ -144,7 +144,7 @@ function Signup() {
               name='password'
               className='loginFormInput'
               value={signUpUser.password}
-              onChange={UpdateUserObject}
+              onChange={updateUserObject}
             />
             <div className='mt-2 h-4 flow-root'>
               <a className='float-right loginForgotPassword'>

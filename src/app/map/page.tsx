@@ -33,7 +33,7 @@ const mapOptions = {
 
 const libraries: any = ['marker', 'places']
 
-const center: MapLocation = { lat: 39.8283, lng: -98.5795 }
+const center: MapLocation = { lat: 20, lng: 0 }
 
 type CallBackType = (map: google.maps.Map | null) => void
 
@@ -162,14 +162,14 @@ function Map() {
   }
 
   return (
-    <div className='h-full w-screen'>
+    <div className='h-[90vh] w-screen'>
       {/* Loading Screen */}
       {loading ? (
         <LoadingScreen />
       ) : (
         <div className='flex flex-row'>
           {/* Main Menu */}
-          <div className='bg-secondary h-[90vh] w-1/4 flex flex-col'>
+          <div className='bg-secondary h-[700px] w-[500px] flex flex-col overflow-auto'>
             {/* Search Bar */}
             <div className='h-[10%] w-full flex justify-center items-center'>
               <PlacesSearchBar changeCenter={changeCenter} />
@@ -204,7 +204,7 @@ function Map() {
           {isLoggedIn && <Sidebar changeCenter={changeCenter} />}
           {/* Actual Map */}
           <GoogleMap
-            mapContainerClassName='h-[90vh] w-3/4'
+            mapContainerClassName='h-[90vh] w-full'
             center={center}
             zoom={zoomLevel.HOME}
             onLoad={onLoad}

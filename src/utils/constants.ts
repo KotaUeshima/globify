@@ -8,7 +8,7 @@ export const routeNames = {
 export const zoomLevel = {
   SUPER_CLOSE: 18,
   CLOSE: 14,
-  HOME: 5,
+  HOME: 3,
 }
 
 let BACKEND_URL: string

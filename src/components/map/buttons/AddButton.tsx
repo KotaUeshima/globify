@@ -22,13 +22,6 @@ function AddButton({ setModalOpen }: AddButtonProps) {
           user.email === '' ? 'text-primary/30' : ''
         }`}
       />
-      <p
-        className={`mapButtonText ${
-          user.email === '' ? 'text-primary/30' : ''
-        }`}
-      >
-        Add
-      </p>
     </button>
   )
 }

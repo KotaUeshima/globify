@@ -50,14 +50,14 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
   }
 
   return (
-    <div className='z-20 h-full w-screen fixed inset-0 bg-gray-600/50 flex justify-center items-center'>
+    <div className='z-20 h-full w-screen fixed inset-0 modalBackground flex justify-center items-center'>
       {/* Actual Modal */}
       <div className='h-[75vh] w-3/4 md:w-[500px] flex flex-col bg-secondary px-4 pb-4 globalRounded'>
         {/* Navigation Bar */}
         <div className='h-10 py-2 flex justify-end items-center'>
           <XMarkIcon
             onClick={() => setModalOpen(false)}
-            className='h-6 w-6 rounded-full hover:bg-white hover:text-secondary globalTransition cursor-pointer'
+            className='basicIconSize rounded-full hover:bg-white hover:text-secondary globalTransition cursor-pointer'
           />
         </div>
         {/* Search Bar */}

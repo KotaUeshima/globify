@@ -1,5 +1,5 @@
 'use client'
-import BackButton from '@/src/components/BackButton'
+import BackButton from '@/src/components/layout/BackButton'
 import { addUserToStore } from '@/src/features/users/userSlice'
 import { useAppDispatch } from '@/src/redux/store'
 import { BACKEND_URL, routeNames } from '@/src/utils/constants'
@@ -26,7 +26,7 @@ function Login() {
   const router = useRouter()
   const dispatch = useAppDispatch()
 
-  const UpdateUserObject = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateUserObject = (e: React.ChangeEvent<HTMLInputElement>) => {
     const copyLoginUser = {
       ...loginUser,
       [e.target.name]: e.target.value,
@@ -98,7 +98,7 @@ function Login() {
               name='email'
               className='loginFormInput'
               value={loginUser.email}
-              onChange={UpdateUserObject}
+              onChange={updateUserObject}
             />
             <div className='flex justify-between'>
               <label htmlFor='password' className='text-sm text-black/80'>
@@ -113,7 +113,7 @@ function Login() {
               name='password'
               className='loginFormInput'
               value={loginUser.password}
-              onChange={UpdateUserObject}
+              onChange={updateUserObject}
             />
             <div className='mt-2 h-4 flow-root'>
               <a className='float-right loginForgotPassword'>

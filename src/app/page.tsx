@@ -49,8 +49,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      <div className='min-h-screen bg-white w-full flex justify-center items-center'></div>
     </main>
   )
 }

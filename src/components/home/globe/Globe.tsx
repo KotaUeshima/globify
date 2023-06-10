@@ -1,4 +1,4 @@
-import EarthSpecularMap from '@/public/specularMap.jpg'
+import EarthSpecularMap from '@/public/assets/specularMap.jpg'
 // import { OrbitControls } from '@react-three/drei'
 import { useFrame, useLoader } from '@react-three/fiber'
 import { useRef } from 'react'
