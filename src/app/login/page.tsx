@@ -164,7 +164,7 @@ function Login() {
             </p>
             <Link
               href={routeNames.SIGNUP}
-              className='text-sm text-primary/80 font-bold cursor-pointer'
+              className='text-sm text-tertiary font-bold cursor-pointer'
             >
               Sign Up
             </Link>

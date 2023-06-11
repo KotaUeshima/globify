@@ -4,13 +4,21 @@
 
 @layer base {
   body {
-    @apply bg-secondary text-primary overflow-x-hidden;
+    @apply bg-secondary text-primary;
   }
 }
 
 @layer components {
   .landingPageButton {
     @apply bg-primary px-7 py-4 border-[1px] border-primary globalRounded text-secondary text-lg font-medium hover:text-primary hover:bg-transparent hover:border-primary hover:scale-105 globalTransition;
+  }
+
+  .leaderboardTitleText {
+    @apply text-base font-medium text-gray-400;
+  }
+
+  .leaderboardText {
+    @apply text-base font-semibold;
   }
 
   .mapButton {
@@ -22,15 +30,11 @@
   }
 
   .loginHeader {
-    @apply font-medium text-2xl text-black;
+    @apply font-medium text-2xl text-primary;
   }
 
   .formLabel {
     @apply text-sm font-medium text-black/80;
-  }
-
-  .lightFormLabel {
-    @apply text-sm font-medium text-white;
   }
 
   .loginFormInput {

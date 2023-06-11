@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '@/src/redux/store'
 import { BACKEND_URL } from '@/src/utils/constants'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { Dispatch, useState } from 'react'
+import ConfirmModal from './ConfirmModal'
 
 interface SettingsModalProps {
   setOpenSettingsModal: Dispatch<boolean>
@@ -27,6 +28,7 @@ function SettingsModal({ setOpenSettingsModal }: SettingsModalProps) {
     useState<UpdatedUser>(defaultUpdatedUser)
   const [error, setError] = useState<string>('')
   const [updateActive, setUpdateActive] = useState<boolean>(true)
+  const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false)
 
   const dispatch = useAppDispatch()
 
@@ -46,7 +48,6 @@ function SettingsModal({ setOpenSettingsModal }: SettingsModalProps) {
 
   const updateUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(user.id)
     try {
       const response = await fetch(`${BACKEND_URL}/users/${user.id}`, {
         method: 'PATCH',
@@ -75,12 +76,12 @@ function SettingsModal({ setOpenSettingsModal }: SettingsModalProps) {
   return (
     <div className='z-30 h-full w-screen fixed inset-0 modalBackground flex justify-center items-center'>
       {/* Actual Modal */}
-      <div className='z-30 h-[75vh] w-3/4 md:w-[500px] flex flex-col bg-secondary px-4 pb-4 globalRounded overflow-y-auto'>
+      <div className='z-30 h-[80vh] w-3/4 md:w-[500px] flex flex-col bg-secondary px-4 pb-4 globalRounded overflow-y-auto'>
         {/* Navigation Bar */}
         <div className='h-10 py-2 flex justify-end items-center'>
           <XMarkIcon
             onClick={() => setOpenSettingsModal(false)}
-            className='basicIconSize rounded-full hover:bg-white hover:text-secondary globalTransition cursor-pointer'
+            className='basicIconSize rounded-full hover:bg-primary hover:text-secondary globalTransition cursor-pointer'
           />
         </div>
         {/* User Circle */}
@@ -96,7 +97,7 @@ function SettingsModal({ setOpenSettingsModal }: SettingsModalProps) {
             onSubmit={updateUser}
             className='mt-6 w-3/4 mx-auto flex flex-col'
           >
-            <label htmlFor='email' className='lightFormLabel'>
+            <label htmlFor='email' className='formLabel'>
               First Name
             </label>
             <input
@@ -106,7 +107,7 @@ function SettingsModal({ setOpenSettingsModal }: SettingsModalProps) {
               value={updatedUser.firstName}
               onChange={updateUserObject}
             />
-            <label htmlFor='email' className='lightFormLabel'>
+            <label htmlFor='email' className='formLabel'>
               Last Name
             </label>
             <input
@@ -117,7 +118,7 @@ function SettingsModal({ setOpenSettingsModal }: SettingsModalProps) {
               onChange={updateUserObject}
             />
             <div className='flex justify-between'>
-              <label htmlFor='email' className='lightFormLabel'>
+              <label htmlFor='email' className='formLabel'>
                 Email
               </label>
               {error !== '' && <p className='loginErrorLabel'>{error}</p>}
@@ -132,12 +133,28 @@ function SettingsModal({ setOpenSettingsModal }: SettingsModalProps) {
             <button
               className={`${
                 updateActive ? 'bg-primary' : 'bg-primary/20'
-              } mt-4 rounded-md p-3 text-white`}
+              } mt-4 globalRounded p-3 text-white`}
               disabled={!updateActive}
             >
               Update
             </button>
           </form>
+          <div className='mt-6 w-3/4 mx-auto'>
+            <button
+              onClick={() => {
+                setOpenConfirmModal(true)
+              }}
+              className='w-full mx-auto p-3 bg-tertiary globalRounded'
+            >
+              Delete Account
+            </button>
+          </div>
+          {openConfirmModal && (
+            <ConfirmModal
+              setOpenConfirmModal={setOpenConfirmModal}
+              setOpenSettingsModal={setOpenSettingsModal}
+            />
+          )}
         </div>
       </div>
     </div>

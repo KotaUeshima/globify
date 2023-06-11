@@ -165,7 +165,7 @@ function Signup() {
             <p className='text-sm text-gray-500'>Have an account? </p>
             <Link
               href={routeNames.LOGIN}
-              className='text-sm text-primary/80 font-bold cursor-pointer'
+              className='text-sm text-tertiary font-bold cursor-pointer'
             >
               Sign In
             </Link>

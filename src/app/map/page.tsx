@@ -162,7 +162,7 @@ function Map() {
   }
 
   return (
-    <div className='h-[90vh] w-screen'>
+    <div className='h-[90vh] w-screen overflow-x-hidden'>
       {/* Loading Screen */}
       {loading ? (
         <LoadingScreen />
