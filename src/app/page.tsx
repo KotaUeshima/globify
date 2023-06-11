@@ -43,9 +43,7 @@ export default function Home() {
       <div className='h-screen w-full flex flex-row'>
         <div className='h-full w-1/2'></div>
         <div className='h-full w-1/2 flex flex-col items-center'>
-          <h1 className='text-4xl font-bold'>
-            Check out Globify's Charts
-          </h1>
+          <h1 className='text-4xl font-bold'>Check out Our Charts</h1>
           <p></p>
         </div>
       </div>
