@@ -161,6 +161,12 @@ function Map() {
     }
   }
 
+  const addSongLocally = (song: Song) => {
+    const copySongs = [...songs]
+    copySongs.push(song)
+    setSongs(copySongs)
+  }
+
   return (
     <div className='h-[90vh] w-screen overflow-x-hidden'>
       {/* Loading Screen */}
@@ -193,6 +199,7 @@ function Map() {
               <AddSongModal
                 setModalOpen={setModalOpen}
                 userLocation={userLocation}
+                addSongLocally={addSongLocally}
               />
             )}
             {/* Selected Song */}
@@ -201,7 +208,9 @@ function Map() {
             </div>
           </div>
           {/* Side Bar for User */}
-          {isLoggedIn && <Sidebar changeCenter={changeCenter} />}
+          {isLoggedIn && (
+            <Sidebar songs={songs} changeCenter={changeCenter} />
+          )}
           {/* Actual Map */}
           <GoogleMap
             mapContainerClassName='h-[90vh] w-full'

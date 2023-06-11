@@ -1,5 +1,6 @@
 'use client'
 import BackButton from '@/src/components/layout/BackButton'
+import ButtonLoader from '@/src/components/loaders/ButtonLoader'
 import { addUserToStore } from '@/src/features/users/userSlice'
 import { useAppDispatch } from '@/src/redux/store'
 import { BACKEND_URL, routeNames } from '@/src/utils/constants'
@@ -22,6 +23,7 @@ function Login() {
   const [loginButtonActive, setLoginButtonActive] =
     useState<boolean>(false)
   const [error, setError] = useState<LoginError>(defaultLoginError)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -39,6 +41,7 @@ function Login() {
   }
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true)
     e.preventDefault()
     try {
       const response = await fetch(`${BACKEND_URL}/login`, {
@@ -56,6 +59,7 @@ function Login() {
         // set jwt token to local storage
         localStorage.setItem('token', data.jwt)
         router.push(routeNames.MAP)
+        setLoading(false)
       }
       // error with login
       else {
@@ -64,6 +68,7 @@ function Login() {
       }
     } catch (e: any) {
       console.error(e)
+      setLoading(false)
       if (e.message === 'Invalid password') {
         setError({ email: '', password: 'Invalid password' })
       } else if (e.message === 'Email does not exist') {
@@ -126,7 +131,7 @@ function Login() {
               } mt-4 rounded-md p-3 text-white`}
               disabled={!loginButtonActive}
             >
-              Login
+              {loading ? <ButtonLoader /> : 'Login'}
             </button>
           </form>
           {/* --- or --- */}
@@ -138,7 +143,8 @@ function Login() {
           {/* Google Sign In Button from Online*/}
           <button
             type='button'
-            className='text-white bg-red-400 font-medium rounded-md text-sm p-3 text-center inline-flex items-center justify-between'
+            disabled={true}
+            className='text-white bg-red-400/50 font-medium rounded-md text-sm p-3 text-center inline-flex items-center justify-between'
           >
             <svg
               className='mr-2 ml-4 w-4 h-6'

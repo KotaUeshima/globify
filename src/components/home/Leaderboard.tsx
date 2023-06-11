@@ -15,8 +15,7 @@ function Leaderboard() {
 
   return (
     <div className='flex flex-col space-y-4'>
-      <h1 className='text-4xl font-normal'>Leaderboard</h1>
-      <div className='mt-10 grid grid-cols-6 gap-10'>
+      <div className='grid grid-cols-6 gap-10'>
         <h2 className='leaderboardTitleText'>Place</h2>
         <h2 className='leaderboardTitleText col-span-2'>Title</h2>
         <h2 className='leaderboardTitleText col-span-2'>Artist</h2>

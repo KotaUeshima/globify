@@ -1,5 +1,6 @@
 'use client'
 import BackButton from '@/src/components/layout/BackButton'
+import ButtonLoader from '@/src/components/loaders/ButtonLoader'
 import { addUserToStore } from '@/src/features/users/userSlice'
 import { useAppDispatch } from '@/src/redux/store'
 import { BACKEND_URL, routeNames } from '@/src/utils/constants'
@@ -27,6 +28,7 @@ function Signup() {
   const [error, setError] = useState<SignUpError>(defaultError)
   const [signupButtonActive, setSignupButtonActive] =
     useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -48,6 +50,7 @@ function Signup() {
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await fetch(`${BACKEND_URL}/users`, {
         method: 'POST',
@@ -64,10 +67,12 @@ function Signup() {
         // set jwt token to local storage
         localStorage.setItem('token', data.jwt)
         router.push(routeNames.MAP)
+        setLoading(false)
       }
       // error with signup
       else {
         const data: SignUpBackendError = await response.json()
+        setLoading(false)
         const copyError = { ...defaultError }
         for (let errorMessage of data.errors) {
           if (errorMessage.split(' ')[0] === 'Email') {
@@ -157,7 +162,7 @@ function Signup() {
               } mt-4 rounded-md p-3 text-white`}
               disabled={!signupButtonActive}
             >
-              Create account
+              {loading ? <ButtonLoader /> : 'Create account'}
             </button>
           </form>
           {/* Sign Up Navigation */}

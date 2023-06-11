@@ -9,9 +9,14 @@ import TrackSearchBar from './TrackSearchBar'
 interface AddSongModalProps {
   setModalOpen: Dispatch<boolean>
   userLocation: MapLocation | null
+  addSongLocally: (song: Song) => void
 }
 
-function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
+function AddSongModal({
+  setModalOpen,
+  userLocation,
+  addSongLocally,
+}: AddSongModalProps) {
   const [tracks, setTracks] = useState<any[]>([])
   const [selectedTrack, setSelectedTrack] = useState<any>(null)
 
@@ -44,8 +49,8 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
       }
 
       const response = await fetch(`${BACKEND_URL}/songs`, addSongParams)
-      const data = await response.json()
-      console.log(data)
+      const data: Song = await response.json()
+      addSongLocally(data)
     }
   }
 
@@ -100,7 +105,7 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
                 <h2 className='text-sm font-light'>
                   {selectedTrack.name}
                 </h2>
-                <p className='text-xs font-thin text-gray-400'>
+                <p className='text-xs font-light text-gray-400'>
                   by {selectedTrack.artists[0].name}
                 </p>
               </div>

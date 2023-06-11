@@ -1,10 +1,13 @@
 import { useAppSelector } from '@/src/redux/store'
-import { BACKEND_URL } from '@/src/utils/constants'
 import { ViewColumnsIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { useEffect, useState } from 'react'
 import SidebarTrackCard from './SidebarTrackCard'
 
-function Sidebar({ changeCenter }: ChangeCenterProps) {
+interface SidebarProps extends ChangeCenterProps {
+  songs: Song[]
+}
+
+function Sidebar({ changeCenter, songs }: SidebarProps) {
   const [open, setOpen] = useState<boolean>(false)
   const [userSongs, setUserSongs] = useState<Song[]>([])
   const [selectedUserSong, setSelectedUserSong] = useState<Song | null>(
@@ -15,13 +18,14 @@ function Sidebar({ changeCenter }: ChangeCenterProps) {
 
   useEffect(() => {
     const getUserSongs = async () => {
-      const response = await fetch(`${BACKEND_URL}/user_songs/${user.id}`)
-      const data: Song[] = await response.json()
-      setUserSongs(data)
+      const filteredSongs = songs.filter(
+        song => parseInt(song.user_id) === user.id
+      )
+      setUserSongs(filteredSongs)
     }
 
     getUserSongs()
-  }, [])
+  }, [songs])
 
   return (
     <>

@@ -1,9 +1,9 @@
-import { FadeLoader } from 'react-spinners'
+import { PuffLoader } from 'react-spinners'
 
 function ButtonLoader() {
   return (
-    <div>
-      <FadeLoader color={'white'} />
+    <div className='w-full flex justify-center'>
+      <PuffLoader color={'white'} size={25} />
     </div>
   )
 }
