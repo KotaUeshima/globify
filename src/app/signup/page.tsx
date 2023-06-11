@@ -84,7 +84,7 @@ function Signup() {
   }
 
   return (
-    <div className='overflow-hidden absolute top-0 bg-gray-300 h-screen w-screen flex flex-row items-center justify-center'>
+    <div className='overflow-hidden absolute top-0 bg-secondary h-screen w-screen flex flex-row items-center justify-center'>
       {/* Back Button */}
       <BackButton />
       {/* Image on Left Side */}
@@ -153,7 +153,7 @@ function Signup() {
             </div>
             <button
               className={`${
-                signupButtonActive ? 'bg-primary' : 'bg-primary/20'
+                signupButtonActive ? 'bg-tertiary' : 'bg-tertiary/20'
               } mt-4 rounded-md p-3 text-white`}
               disabled={!signupButtonActive}
             >
@@ -173,7 +173,7 @@ function Signup() {
         </div>
       </div>
       {/* Background Diagonal Shape */}
-      <div className='-rotate-45 absolute bottom-0 h-[50%] w-[200vw] bg-primary/30 '></div>
+      <div className='-rotate-45 absolute bottom-0 h-[50%] w-[200vw] bg-primary'></div>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/src/redux/store'
 import { BACKEND_URL } from '@/src/utils/constants'
-import { XMarkIcon } from '@heroicons/react/24/solid'
+import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { Dispatch, useState } from 'react'
 import ModalMap from './ModalMap'
 import TrackCard from './TrackCard'
@@ -57,7 +57,7 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
         <div className='h-10 py-2 flex justify-end items-center'>
           <XMarkIcon
             onClick={() => setModalOpen(false)}
-            className='basicIconSize rounded-full hover:bg-white hover:text-secondary globalTransition cursor-pointer'
+            className='basicIconSize rounded-full hover:bg-primary hover:text-secondary globalTransition cursor-pointer'
           />
         </div>
         {/* Search Bar */}
@@ -79,7 +79,7 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
             })
           ) : (
             <div className='h-full w-full flex justify-center items-center'>
-              <h2 className='text-3xl font-thin text-gray-400 text-center'>
+              <h2 className='text-3xl font-light text-gray-400 text-center'>
                 Search Songs to See Results
               </h2>
             </div>
@@ -100,7 +100,7 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
                 <h2 className='text-sm font-light'>
                   {selectedTrack.name}
                 </h2>
-                <p className='text-xs font-thin text-gray-200'>
+                <p className='text-xs font-thin text-gray-400'>
                   by {selectedTrack.artists[0].name}
                 </p>
               </div>
@@ -113,12 +113,12 @@ function AddSongModal({ setModalOpen, userLocation }: AddSongModalProps) {
               addSong()
               setModalOpen(false)
             }}
-            className={`px-3 py-2 globalRounded font-light ${
-              selectedTrack ? 'bg-primary' : 'bg-primary/50'
+            className={`px-3 py-2 globalRounded text-secondary ${
+              selectedTrack ? 'bg-primary' : 'bg-primary/70'
             }`}
             disabled={selectedTrack ? false : true}
           >
-            Add Song
+            <PlusIcon className='basicIconSize' />
           </button>
         </div>
       </div>

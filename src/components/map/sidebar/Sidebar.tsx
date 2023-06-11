@@ -28,27 +28,29 @@ function Sidebar({ changeCenter }: ChangeCenterProps) {
       {/* Button */}
       <div className='z-10 absolute top-24 right-5'>
         <button
-          className='bg-secondary/90 hover:bg-secondary px-3 py-2 text-white globalRounded flex flex-row items-center space-x-2'
+          className='px-3 py-2 bg-primary text-secondary globalRounded flex flex-col items-center space-x-2'
           onClick={() => {
             setOpen(true)
           }}
         >
-          <ViewColumnsIcon className='h-6 w-6 text-white' />
-          <p className='text-base font-light'>View My Songs</p>
+          <ViewColumnsIcon className='h-10 w-10' />
+          <p className='text-base font-light'>My Songs</p>
         </button>
       </div>
       {/* Sidebar */}
       <div
         className={`${
           open ? 'translate-x-0' : 'translate-x-[110%]'
-        } absolute top-24 right-5 z-10 h-[60%] w-[350px] bg-secondary globalRounded ease-in-out duration-1000 overflow-y-auto`}
+        } absolute top-24 right-5 z-10 h-[500px] w-[350px] bg-secondary globalRounded globalTransition overflow-y-auto`}
       >
         {/* Sidebar Navigation */}
         <div className='h-10 mt-2 mx-4 flex justify-between items-center'>
-          <h2 className='text-white text-2xl font-medium'>My Songs</h2>
+          <h2 className='px-4 py-2 bg-primary text-secondary globalRounded text-xl font-medium'>
+            My Songs
+          </h2>
           <XMarkIcon
             onClick={() => setOpen(false)}
-            className='h-6 w-6 rounded-full hover:bg-white hover:text-secondary globalTransition cursor-pointer'
+            className='basicIconSize rounded-full hover:bg-primary hover:text-secondary globalTransition cursor-pointer'
           />
         </div>
         {/* User Song List */}

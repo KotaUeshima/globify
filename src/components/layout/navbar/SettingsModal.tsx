@@ -85,7 +85,7 @@ function SettingsModal({ setOpenSettingsModal }: SettingsModalProps) {
         </div>
         {/* User Circle */}
         <div className='w-full flex justify-center'>
-          <div className='h-32 w-32 text-3xl bg-primary rounded-full flex justify-center items-center'>
+          <div className='h-32 w-32 text-3xl bg-primary text-secondary rounded-full flex justify-center items-center'>
             {user.firstName.substring(0, 1) +
               user.lastName.substring(0, 1)}
           </div>

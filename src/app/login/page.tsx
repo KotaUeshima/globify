@@ -73,7 +73,7 @@ function Login() {
   }
 
   return (
-    <div className='overflow-hidden absolute top-0 bg-gray-300 h-screen w-screen flex flex-row justify-center items-center'>
+    <div className='overflow-hidden absolute top-0 bg-secondary h-screen w-screen flex flex-row justify-center items-center'>
       {/* Back Button */}
       <BackButton />
       {/* White Box */}
@@ -122,7 +122,7 @@ function Login() {
             </div>
             <button
               className={`${
-                loginButtonActive ? 'bg-primary' : 'bg-primary/20'
+                loginButtonActive ? 'bg-tertiary' : 'bg-tertiary/20'
               } mt-4 rounded-md p-3 text-white`}
               disabled={!loginButtonActive}
             >
@@ -172,7 +172,7 @@ function Login() {
         </div>
       </div>
       {/* Background Diagonal Shape */}
-      <div className='-rotate-45 absolute bottom-10 h-[50%] w-[200vw] bg-primary/30 '></div>
+      <div className='-rotate-45 absolute bottom-10 h-[50%] w-[200vw] bg-primary '></div>
     </div>
   )
 }

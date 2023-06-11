@@ -1,8 +1,7 @@
 'use client'
 import { routeNames } from '@/src/utils/constants'
 import Link from 'next/link'
-import HomeTrackCard from '../components/home/HomeTrackCard'
-import GlobeCanvas from '../components/home/globe/GlobeCanvas'
+import heroImage from '../../public/assets/heroImage2.png'
 import useAuthorization from '../utils/hooks/useAuthorization'
 
 export default function Home() {
@@ -10,20 +9,19 @@ export default function Home() {
   useAuthorization()
 
   return (
-    <main className='min-h-screen w-[95vw] mx-auto flex flex-col'>
-      <div className='h-full w-full flex flex-row'>
+    <main className='min-h-screen w-[85vw] mx-auto flex flex-col'>
+      <div className='h-[90vh] w-full flex flex-row'>
         {/* Left Side */}
-        <div className='h-[90vh] w-2/3 flex flex-col justify-center items-center'>
-          <div className='z-20 flex flex-col text-left w-3/4 space-y-6'>
-            <h2 className='text-lg sm:text-4xl md:text-5xl lg:text-7xl lg:leading-normal font-bold tracking-wider'>
-              Discover <span className='text-primary'>Global</span> Music
+        <div className='h-full w-1/2 flex flex-col justify-center items-center'>
+          <div className='z-20 flex flex-col text-left w-3/4'>
+            <h2 className='text-lg sm:text-4xl md:text-5xl lg:text-6xl lg:leading-normal font-bold tracking-wider'>
+              Discover music from around the world.
             </h2>
-            <p className='text-lg font-thin w-1/2'>
-              Explore what people from all across the world are listening
-              to and share with the world what you are listening to with
-              our global interactive map.
+            <p className='mt-4 text-xs sm:text-sm md:text-base lg:text-lg font-light tracking-wider'>
+              Use our interactive map to explore what people from across
+              the world are listening to. Share your music from anywhere!
             </p>
-            <div className='flex flex-row justify-start items-center space-x-10'>
+            <div className='mt-12 flex flex-row justify-start items-center space-x-10'>
               <Link href={routeNames.MAP} className='landingPageButton'>
                 Get Started
               </Link>
@@ -34,19 +32,21 @@ export default function Home() {
           </div>
         </div>
         {/* Right Side */}
-        <div className='h-[90vh] w-1/3 flex flex-col'>
-          <div className='h-1/3 flex items-center justify-start'>
-            <HomeTrackCard />
-          </div>
-          <div className='h-1/3 flex items-center justify-center'>
-            <HomeTrackCard />
-          </div>
+        <div className='h-full w-1/2 flex'>
+          <img
+            src={heroImage.src}
+            alt='hero-image'
+            className='h-full w-full object-contain'
+          />
         </div>
-        {/* Globe */}
-        <div className='-z-10 absolute top-0 left-0 flex justify-center items-center'>
-          <div className='h-screen w-screen'>
-            <GlobeCanvas />
-          </div>
+      </div>
+      <div className='h-screen w-full flex flex-row'>
+        <div className='h-full w-1/2'></div>
+        <div className='h-full w-1/2 flex flex-col items-center'>
+          <h1 className='text-4xl font-bold'>
+            Check out Globify's Charts
+          </h1>
+          <p></p>
         </div>
       </div>
     </main>

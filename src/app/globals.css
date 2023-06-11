@@ -4,17 +4,17 @@
 
 @layer base {
   body {
-    @apply bg-secondary text-white overflow-hidden;
+    @apply bg-secondary text-primary overflow-x-hidden;
   }
 }
 
 @layer components {
   .landingPageButton {
-    @apply bg-primary px-6 py-2 border-[1px] border-primary globalRounded text-white text-lg font-medium hover:bg-transparent hover:border-white hover:scale-105 ease-in-out duration-700;
+    @apply bg-primary px-7 py-4 border-[1px] border-primary globalRounded text-secondary text-lg font-medium hover:text-primary hover:bg-transparent hover:border-primary hover:scale-105 globalTransition;
   }
 
   .mapButton {
-    @apply h-3/4 w-1/2 bg-gray-100 hover:bg-gray-300 globalRounded flex flex-col space-y-2 justify-center items-center;
+    @apply h-3/4 w-1/2 bg-gray-200 hover:bg-gray-300 globalRounded flex flex-col space-y-2 justify-center items-center;
   }
 
   .mapButtonIcon {
@@ -56,7 +56,7 @@
 
 @layer utility {
   .globalRounded {
-    @apply rounded-lg;
+    @apply rounded-md;
   }
 
   .globalTransition {

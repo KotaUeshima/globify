@@ -3,7 +3,7 @@ import { routeNames } from '@/src/utils/constants'
 import { MapIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import globifyIcon from '../../../public/assets/globify.png'
+import globifyLogo from '../../../../public/assets/globifyLogo.png'
 import ProfileCircle from './ProfileCircle'
 
 function Navbar() {
@@ -15,18 +15,18 @@ function Navbar() {
         <div className='flex flex-row space-x-10 items-center'>
           <Link href={routeNames.HOME} className='font-thin'>
             <img
-              src={globifyIcon.src}
+              src={globifyLogo.src}
               alt='globify-icon'
-              className='h-14 w-24 object-cover text-white'
+              className='h-20 w-24 object-contain text-white'
             />
           </Link>
           <Link
             href={routeNames.MAP}
             className={`${
               pathname === routeNames.MAP
-                ? 'text-white'
-                : 'text-gray-400 hover:text-white '
-            } font-medium globalTransition flex flex-row space-x-2`}
+                ? 'text-white bg-primary'
+                : 'text-primary hover:text-primary/50 '
+            } p-3 font-medium globalRounded globalTransition flex flex-row space-x-2`}
           >
             <MapIcon className='h-6 w-6' />
             <h2>Map</h2>
@@ -34,9 +34,6 @@ function Navbar() {
         </div>
         <ProfileCircle />
       </div>
-      {pathname === routeNames.HOME && (
-        <hr className='h-[0.5px] bg-white border-none ' />
-      )}
     </div>
   )
 }

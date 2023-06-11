@@ -19,8 +19,8 @@ function TrackCard({
     <div
       className={`${
         selectedTrack && selectedTrack.id === track.id
-          ? 'bg-gray-700'
-          : 'bg-transparent hover:bg-gray-500'
+          ? 'bg-primary'
+          : 'bg-primary/80 hover:bg-primary'
       } mt-2 flex flex-row globalRounded  globalTransition`}
       onClick={() => {
         setSelectedTrack(track)
@@ -31,11 +31,9 @@ function TrackCard({
         alt='album-cover'
         className='w-24 rounded-l-md'
       />
-      <div className='ml-4 flex flex-col mr-4'>
-        <h2 className='text-xl font-light'>{name}</h2>
-        <p className='text-base font-extralight text-gray-400'>
-          by {artist}
-        </p>
+      <div className='mt-2 mx-4 flex flex-col'>
+        <h2 className='text-xl font-normal text-secondary'>{name}</h2>
+        <p className='text-base font-normal text-gray-400'>by {artist}</p>
       </div>
     </div>
   )

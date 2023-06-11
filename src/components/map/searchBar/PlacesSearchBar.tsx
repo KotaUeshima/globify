@@ -16,7 +16,7 @@ function PlacesSearchBar({ changeCenter }: ChangeCenterProps) {
       options={{
         types: ['(regions)'],
       }}
-      className='py-2 w-3/4 md:px-6 lg:px-8 bg-gray-300 border-2 text-large font-light text-black globalRounded focus:outline-none'
+      className='py-2 w-3/4 md:px-6 lg:px-8 bg-primary border-2 text-large font-light tracking-wider text-secondary placeholder:text-secondary globalRounded focus:outline-none'
     />
   )
 }

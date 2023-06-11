@@ -4,7 +4,7 @@ interface SelectedSongPlayerProps {
 
 function SelectedSongPlayer({ selectedMarker }: SelectedSongPlayerProps) {
   return (
-    <div className='w-3/4 bg-gray-100 globalRounded'>
+    <div className='w-3/4 bg-primary globalRounded'>
       {selectedMarker ? (
         <div
           className={`h-full w-full flex flex-col justify-center items-center`}

@@ -248,12 +248,15 @@ function AdvancedMarkers({
             map={map}
             position={{ lat: song.lat, lng: song.lng }}
           >
-            <div
-              className={`bg-secondary flex flex-row globalRounded globalTransition ${
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth='1.5'
+              stroke='currentColor'
+              className={`h-12 w-12 globalTransition ${
                 highlight === song.id ? 'scale-110' : 'scale-100'
               }`}
-              onMouseEnter={() => setHighlight(song.id)}
-              onMouseLeave={() => setHighlight(0)}
               onClick={() => {
                 setSelectedMarker(song)
                 changeCenter(
@@ -261,16 +264,22 @@ function AdvancedMarkers({
                   zoomLevel.CLOSE
                 )
               }}
+              onMouseEnter={() => setHighlight(song.id)}
+              onMouseLeave={() => setHighlight(0)}
             >
-              <img
-                src={song.image_url}
-                alt='album-cover'
-                className='w-12 p-1 globalRounded'
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                fill='#242528'
+                d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z'
               />
-              <p className='text-xs text-gray-300 p-1 h-10 w-10 overflow-hidden'>
-                {song.title}
-              </p>
-            </div>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                fill='#fe7925'
+                d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'
+              />
+            </svg>
           </Marker>
         )
       })}

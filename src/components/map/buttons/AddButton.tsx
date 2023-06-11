@@ -13,7 +13,7 @@ function AddButton({ setModalOpen }: AddButtonProps) {
     <button
       disabled={user.email === '' ? true : false}
       className={`mapButton ${
-        user.email === '' ? ' bg-gray-100 hover:bg-gray-100' : ''
+        user.email === '' ? ' bg-gray-200 hover:bg-gray-200' : ''
       }`}
       onClick={() => setModalOpen(true)}
     >

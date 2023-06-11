@@ -66,7 +66,7 @@ function ProfileCircle() {
         onClick={() => {
           setOpenMenu(!openMenu)
         }}
-        className='font-medium text-sm text-secondary h-12 w-12 rounded-full bg-white hover:ring-primary hover:ring-1 hover:ring-inset globalTransition'
+        className='font-medium text-sm text-secondary h-12 w-12 rounded-full bg-primary hover:ring-secondary hover:ring-1 hover:ring-inset globalTransition'
       >
         {initials}
       </button>
@@ -76,7 +76,7 @@ function ProfileCircle() {
           className='z-20 absolute top-[76px] right-[5vw] h-[275px] w-[300px] bg-gray-200 globalRounded flex justify-center items-center'
         >
           <div className='m-4 bg-white h-4/5 w-full globalRounded flex flex-col items-center'>
-            <div className='mt-2 h-16 w-16 bg-primary rounded-full flex justify-center items-center'>
+            <div className='mt-2 h-16 w-16 bg-primary text-secondary rounded-full flex justify-center items-center'>
               {initials}
             </div>
             <h2 className='mt-2 text-primary text-xl font-medium'>
