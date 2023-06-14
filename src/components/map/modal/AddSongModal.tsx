@@ -31,12 +31,7 @@ function AddSongModal({
         image_url: selectedTrack.album.images[0].url,
         lat: userLocation.lat,
         lng: userLocation.lng,
-        spotify_url: `${selectedTrack.external_urls.spotify.substring(
-          0,
-          25
-        )}embed/${selectedTrack.external_urls.spotify.substring(
-          25
-        )}?utm_source=generator`,
+        spotify_url: selectedTrack.preview_url,
       }
 
       const addSongParams = {
