@@ -45,7 +45,7 @@ function Sidebar({ changeCenter, songs }: SidebarProps) {
       <div
         className={`${
           open ? 'translate-x-0' : 'translate-x-[110%]'
-        } absolute top-24 right-5 z-10 h-[500px] w-[350px] bg-secondary globalRounded globalTransition overflow-y-auto`}
+        } absolute top-24 right-5 z-10 h-[500px] w-[350px] bg-secondary globalRounded ease-in-out duration-1000 overflow-y-auto`}
       >
         {/* Sidebar Navigation */}
         <div className='h-10 mt-2 mx-4 flex justify-between items-center'>

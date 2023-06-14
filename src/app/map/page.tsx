@@ -1,6 +1,6 @@
 'use client'
 import LoadingScreen from '@/src/components/loaders/LoadingScreen'
-import SelectedSongPlayer from '@/src/components/map/SelectedSongPlayer'
+import SelectedSongPlayer from '@/src/components/map/songplayer/SelectedSongPlayer'
 import AddButton from '@/src/components/map/buttons/AddButton'
 import HomeButton from '@/src/components/map/buttons/HomeButton'
 import LocateButton from '@/src/components/map/buttons/LocateButton'

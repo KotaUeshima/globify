@@ -26,6 +26,8 @@ interface Song {
   user_id: string
   user: {
     id: number
-    username: string
+    email: string
+    firstName: string
+    lastName: string
   }
 }
