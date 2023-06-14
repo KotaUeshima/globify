@@ -1,6 +1,5 @@
 'use client'
 import LoadingScreen from '@/src/components/loaders/LoadingScreen'
-import SelectedSongPlayer from '@/src/components/map/songplayer/SelectedSongPlayer'
 import AddButton from '@/src/components/map/buttons/AddButton'
 import HomeButton from '@/src/components/map/buttons/HomeButton'
 import LocateButton from '@/src/components/map/buttons/LocateButton'
@@ -8,6 +7,7 @@ import ShuffleButton from '@/src/components/map/buttons/ShuffleButton'
 import AddSongModal from '@/src/components/map/modal/AddSongModal'
 import PlacesSearchBar from '@/src/components/map/searchBar/PlacesSearchBar'
 import Sidebar from '@/src/components/map/sidebar/Sidebar'
+import SelectedSongPlayer from '@/src/components/map/songplayer/SelectedSongPlayer'
 import { useAppSelector } from '@/src/redux/store'
 import { BACKEND_URL, zoomLevel } from '@/src/utils/constants'
 import timeout from '@/src/utils/functions/timeout'
@@ -98,18 +98,10 @@ function Map() {
       const newLat = newCenter.lat
       const newLng = newCenter.lng
 
-      console.log('Current Lat >>>', currentLat)
-      console.log('Current Lng >>>', currentLng)
-      console.log('New Lat >>>', newLat)
-      console.log('New Lng >>>', newLng)
-
       const latDiff = newLat - currentLat
       const lngDiff = newLng - currentLng
       let zoomDiff = Math.abs(currentZoom - newZoom)
 
-      console.log('Old Zoom >>>', currentZoom)
-      console.log('New Zoom >>>', newZoom)
-      console.log('Zoom Diff >>>', zoomDiff)
       // if no zooming assign to arbitrary value
       if (zoomDiff === 0) zoomDiff = 6
       const latIncrement = latDiff / (zoomDiff + 1)
@@ -121,13 +113,11 @@ function Map() {
           await timeout(25)
           currentLat += latIncrement
           currentLng += lngIncrement
-          console.log('currentLat >>>', currentLat)
-          console.log('currentLng >>>', currentLng)
           mapRef.panTo({ lat: currentLat, lng: currentLng })
         }
+        mapRef.panTo({ lat: newLat, lng: newLng })
         for (let i = currentZoom; i <= newZoom; i++) {
           await timeout(50)
-          console.log('zoom >>>', i)
           mapRef.setZoom(i)
         }
         mapRef.setZoom(newZoom)
@@ -136,7 +126,6 @@ function Map() {
       else if (currentZoom > newZoom) {
         for (let i = currentZoom; i >= newZoom; i--) {
           await timeout(50)
-          console.log('zoom >>>', i)
           mapRef.setZoom(i)
         }
         mapRef.setZoom(newZoom)
@@ -144,10 +133,9 @@ function Map() {
           await timeout(25)
           currentLat += latIncrement
           currentLng += lngIncrement
-          console.log('currentLat >>>', currentLat)
-          console.log('currentLng >>>', currentLng)
           mapRef.panTo({ lat: currentLat, lng: currentLng })
         }
+        mapRef.panTo({ lat: newLat, lng: newLng })
       }
       // no zooming
       else {
@@ -157,6 +145,7 @@ function Map() {
           currentLng += lngIncrement
           mapRef.panTo({ lat: currentLat, lng: currentLng })
         }
+        mapRef.panTo({ lat: newLat, lng: newLng })
       }
     }
   }
@@ -209,7 +198,11 @@ function Map() {
           </div>
           {/* Side Bar for User */}
           {isLoggedIn && (
-            <Sidebar songs={songs} changeCenter={changeCenter} />
+            <Sidebar
+              setSongs={setSongs}
+              songs={songs}
+              changeCenter={changeCenter}
+            />
           )}
           {/* Actual Map */}
           <GoogleMap

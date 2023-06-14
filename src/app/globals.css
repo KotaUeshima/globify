@@ -13,10 +13,6 @@
     @apply bg-primary px-7 py-4 border-[1px] border-primary globalRounded text-secondary text-lg font-medium hover:text-primary hover:bg-transparent hover:border-primary hover:scale-105 globalTransition;
   }
 
-  .leaderboardTitleText {
-    @apply text-base font-medium text-gray-400;
-  }
-
   .leaderboardText {
     @apply text-base font-semibold;
   }

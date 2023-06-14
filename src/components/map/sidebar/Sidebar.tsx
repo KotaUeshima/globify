@@ -1,13 +1,19 @@
 import { useAppSelector } from '@/src/redux/store'
+import { BACKEND_URL } from '@/src/utils/constants'
 import { ViewColumnsIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import { useEffect, useState } from 'react'
+import { Dispatch, useEffect, useState } from 'react'
+import DeleteModal from './DeleteModal'
 import SidebarTrackCard from './SidebarTrackCard'
 
 interface SidebarProps extends ChangeCenterProps {
+  setSongs: Dispatch<Song[]>
   songs: Song[]
 }
 
-function Sidebar({ changeCenter, songs }: SidebarProps) {
+function Sidebar({ changeCenter, setSongs, songs }: SidebarProps) {
+  const [openDeleteModal, setOpenDeleteModal] = useState<
+    [boolean, number]
+  >([false, -1])
   const [open, setOpen] = useState<boolean>(false)
   const [userSongs, setUserSongs] = useState<Song[]>([])
   const [selectedUserSong, setSelectedUserSong] = useState<Song | null>(
@@ -26,6 +32,27 @@ function Sidebar({ changeCenter, songs }: SidebarProps) {
 
     getUserSongs()
   }, [songs])
+
+  const deleteSong = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/songs/${openDeleteModal[1]}`,
+        {
+          method: 'DELETE',
+        }
+      )
+      if (response.ok) {
+        const filteredSongs = songs.filter(
+          song => song.id !== openDeleteModal[1]
+        )
+        setSongs(filteredSongs)
+      }
+    } catch (e: any) {
+      console.error(e)
+    }
+
+    setOpenDeleteModal([false, -1])
+  }
 
   return (
     <>
@@ -67,11 +94,18 @@ function Sidebar({ changeCenter, songs }: SidebarProps) {
                 selectedUserSong={selectedUserSong}
                 setSelectedUserSong={setSelectedUserSong}
                 changeCenter={changeCenter}
+                setOpenDeleteModal={setOpenDeleteModal}
               />
             )
           })}
         </div>
       </div>
+      {openDeleteModal[0] && (
+        <DeleteModal
+          deleteSong={deleteSong}
+          setOpenDeleteModal={setOpenDeleteModal}
+        />
+      )}
     </>
   )
 }
