@@ -22,27 +22,54 @@ Still working on a few features:
 
 You can access the web demo at https://globify.vercel.app/
 
-## Setup
+# Setup
 
-Start project on a personal port
+Clone down this repository. You will need node and npm installed globally on your machine.
+
+Installation:
+
+```
+npm run install
+```
+
+Run local server:
 
 ```
 npm run dev
 ```
 
-## Installation
+Backend Url: https://globify-backend.onrender.com
+
+Backend Repo: https://github.com/KotaUeshima/globify-backend
+
+# Libraries
+
+**Google Maps**
+
+```
+npm install @react-google-maps/api
+npm install @types/google.maps
+npm install react-google-autocomplete
+```
+
+**UI Tools**
+
+```
+npm install @heroicons/react
+npm install react-spinners
+```
+
+**State Management**
+
+```
+npm install react-redux
+npm install @reduxjs/toolkit
+```
+
+**3D Rendering**
 
 ```
 npm install three
 npm install @react-three/fiber
 npm install @react-three/drei
-npm install @react-google-maps/api
-npm install @heroicons/react
-npm install react-google-autocomplete --save
-npm install react-redux
-npm install @reduxjs/toolkit
-npm install @googlemaps/markerclusterer
-npm install @types/google.maps
-npm install --save react-spinners
-npm install react-audio-player
 ```
