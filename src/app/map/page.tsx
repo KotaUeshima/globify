@@ -89,7 +89,9 @@ function Map() {
     return !isLoaded || songs.length === 0 || userLocation === null
   }, [isLoaded, songs, userLocation])
 
+  console.log('outside mapRef>>>', mapRef)
   const changeCenter = async (newCenter: MapLocation, newZoom: number) => {
+    console.log('inside mapRef>>>', mapRef)
     if (mapRef) {
       const currentZoom = mapRef.getZoom()!
       const currentCenter = mapRef.getCenter()
