@@ -2,13 +2,17 @@
 
 An application to showcase songs that people are listening to from across the world, utilizing Google Maps API and Spotify API, featuring a Next.js frontend built with React, Typescript, and a Ruby on Rails backend.
 
-# Project Screenshots
+## Demo
+
+You can access the web demo at https://globify.vercel.app/
+
+## Project Screenshots
 
 ![homepage](./public/screenshots/homepage.png)
 ![map](./public/screenshots/map.png)
 ![login](./public/screenshots/login.png)
 
-# Project Status
+## Project Status
 
 Still working on a few features:
 
@@ -16,13 +20,9 @@ Still working on a few features:
 - Update responsiveness
 - Fix loading of initial data
 - Improve click flow
-- Implement shufflt button
+- Implement shuffle button
 
-# Demo
-
-You can access the web demo at https://globify.vercel.app/
-
-# Setup
+## Setup
 
 Clone down this repository. You will need node and npm installed globally on your machine.
 
@@ -42,7 +42,7 @@ Backend Url: https://globify-backend.onrender.com
 
 Backend Repo: https://github.com/KotaUeshima/globify-backend
 
-# Libraries
+## Libraries
 
 **Google Maps**
 
