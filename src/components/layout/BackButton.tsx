@@ -6,7 +6,7 @@ function BackButton() {
 
   return (
     <button
-      className='z-10 absolute top-5 left-5'
+      className='z-20 absolute top-5 left-5'
       onClick={() => router.back()}
     >
       <ArrowLeftIcon className='h-6 w-6 text-primary' />

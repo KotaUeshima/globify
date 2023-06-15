@@ -20,7 +20,7 @@ function Leaderboard() {
   }, [])
 
   return (
-    <div className='flex flex-col space-y-4'>
+    <div className='w-3/4 xl:w-full flex flex-col space-y-4'>
       <div className='my-2 w-full flex justify-center'>
         <h2 className='text-5xl tracking-wider font-medium text-secondary text-center py-6 w-full globalRounded bg-tertiary'>
           Leaderboard

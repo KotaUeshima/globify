@@ -10,12 +10,12 @@ export default function Home() {
   useAuthorization()
 
   return (
-    <main className='min-h-screen w-[1000px] lg:w-[85vw] mx-auto flex flex-col'>
-      <div className='h-[90vh] w-full flex flex-row'>
+    <main className='min-h-screen w-[1000px] xl:w-[85vw] mx-auto flex flex-col'>
+      <div className='h-[750px] xl:h-[90vh] w-full flex flex-row'>
         {/* Left Side */}
         <div className='h-full w-1/2 flex flex-col justify-center items-center'>
           <div className='flex flex-col text-left w-3/4'>
-            <h2 className='text-5xl lg:text-6xl lg:leading-normal font-bold tracking-wider'>
+            <h2 className='text-5xl lg:text-6xl leading-normal font-bold tracking-wider'>
               Discover music from around the world.
             </h2>
             <p className='mt-4 text-base lg:text-lg font-light tracking-wider'>
@@ -41,7 +41,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className='h-screen w-full flex flex-row'>
+      <div className='h-[750px] xl:h-[100vh] w-full flex flex-row'>
         <div className='h-full w-1/2 flex justify-center items-center'>
           <Leaderboard />
         </div>

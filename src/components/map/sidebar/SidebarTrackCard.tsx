@@ -1,20 +1,20 @@
-import { zoomLevel } from '@/src/utils/constants'
 import { TrashIcon } from '@heroicons/react/24/solid'
 import { Dispatch } from 'react'
 
-interface SidebarTrackCardProps extends ChangeCenterProps {
+interface SidebarTrackCardProps {
   userSong: Song
   selectedUserSong: Song | null
   setSelectedUserSong: Dispatch<Song>
   setOpenDeleteModal: Dispatch<[boolean, number]>
+  selectAndGoToSong: (song: Song) => void
 }
 
 function SidebarTrackCard({
   userSong,
   selectedUserSong,
   setSelectedUserSong,
-  changeCenter,
   setOpenDeleteModal,
+  selectAndGoToSong,
 }: SidebarTrackCardProps) {
   return (
     <>
@@ -26,10 +26,7 @@ function SidebarTrackCard({
         } relative mt-2 p-2 flex flex-row globalRounded globalTransition`}
         onClick={() => {
           setSelectedUserSong(userSong)
-          changeCenter(
-            { lat: userSong.lat, lng: userSong.lng },
-            zoomLevel.CLOSE
-          )
+          selectAndGoToSong(userSong)
         }}
       >
         <img

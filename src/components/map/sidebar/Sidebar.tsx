@@ -5,12 +5,13 @@ import { Dispatch, useEffect, useState } from 'react'
 import DeleteModal from './DeleteModal'
 import SidebarTrackCard from './SidebarTrackCard'
 
-interface SidebarProps extends ChangeCenterProps {
+interface SidebarProps {
   setSongs: Dispatch<Song[]>
   songs: Song[]
+  selectAndGoToSong: (song: Song) => void
 }
 
-function Sidebar({ changeCenter, setSongs, songs }: SidebarProps) {
+function Sidebar({ setSongs, songs, selectAndGoToSong }: SidebarProps) {
   const [openDeleteModal, setOpenDeleteModal] = useState<
     [boolean, number]
   >([false, -1])
@@ -93,8 +94,8 @@ function Sidebar({ changeCenter, setSongs, songs }: SidebarProps) {
                 userSong={userSong}
                 selectedUserSong={selectedUserSong}
                 setSelectedUserSong={setSelectedUserSong}
-                changeCenter={changeCenter}
                 setOpenDeleteModal={setOpenDeleteModal}
+                selectAndGoToSong={selectAndGoToSong}
               />
             )
           })}

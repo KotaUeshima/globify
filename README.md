@@ -12,16 +12,6 @@ You can access the web demo at https://globify.vercel.app/
 ![map](./public/screenshots/map.png)
 ![login](./public/screenshots/login.png)
 
-## Project Status
-
-Still working on a few features:
-
-- Google search functionality
-- Update responsiveness
-- Fix loading of initial data
-- Improve click flow
-- Implement shuffle button
-
 ## Setup
 
 Clone down this repository. You will need node and npm installed globally on your machine.
@@ -57,6 +47,7 @@ npm install react-google-autocomplete
 ```
 npm install @heroicons/react
 npm install react-spinners
+npm install downshift
 ```
 
 **State Management**

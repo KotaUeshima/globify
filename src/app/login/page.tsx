@@ -82,7 +82,7 @@ function Login() {
       {/* Back Button */}
       <BackButton />
       {/* White Box */}
-      <div className='z-10 w-[60%] lg:w-[550px] bg-white globalRounded md:flex pt-14 pb-10 drop-shadow-2xl justify-center items-center'>
+      <div className='z-10 w-[80%] md:w-[550px] bg-white globalRounded flex pt-14 pb-10 drop-shadow-2xl justify-center items-center'>
         {/* Form + Header + SignInButton */}
         <div className='flex flex-col space-y-8 w-2/3'>
           <h2 className='loginHeader'>Welcome Back!</h2>

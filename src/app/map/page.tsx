@@ -13,14 +13,7 @@ import { BACKEND_URL, zoomLevel } from '@/src/utils/constants'
 import timeout from '@/src/utils/functions/timeout'
 import useAuthorization from '@/src/utils/hooks/useAuthorization'
 import { GoogleMap, useLoadScript } from '@react-google-maps/api'
-import {
-  Dispatch,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 
 const mapOptions = {
@@ -89,9 +82,7 @@ function Map() {
     return !isLoaded || songs.length === 0 || userLocation === null
   }, [isLoaded, songs, userLocation])
 
-  console.log('outside mapRef>>>', mapRef)
   const changeCenter = async (newCenter: MapLocation, newZoom: number) => {
-    console.log('inside mapRef>>>', mapRef)
     if (mapRef) {
       const currentZoom = mapRef.getZoom()!
       const currentCenter = mapRef.getCenter()
@@ -112,7 +103,7 @@ function Map() {
       // zooming in
       if (currentZoom < newZoom) {
         for (let i = currentZoom; i <= newZoom; i++) {
-          await timeout(25)
+          await timeout(50)
           currentLat += latIncrement
           currentLng += lngIncrement
           mapRef.panTo({ lat: currentLat, lng: currentLng })
@@ -132,7 +123,7 @@ function Map() {
         }
         mapRef.setZoom(newZoom)
         for (let i = currentZoom; i >= newZoom; i--) {
-          await timeout(25)
+          await timeout(50)
           currentLat += latIncrement
           currentLng += lngIncrement
           mapRef.panTo({ lat: currentLat, lng: currentLng })
@@ -142,7 +133,7 @@ function Map() {
       // no zooming
       else {
         for (let i = 0; i < zoomDiff; i++) {
-          await timeout(25)
+          await timeout(50)
           currentLat += latIncrement
           currentLng += lngIncrement
           mapRef.panTo({ lat: currentLat, lng: currentLng })
@@ -158,6 +149,11 @@ function Map() {
     setSongs(copySongs)
   }
 
+  const selectAndGoToSong = (song: Song) => {
+    setSelectedMarker(song)
+    changeCenter({ lat: song.lat, lng: song.lng }, zoomLevel.CLOSE)
+  }
+
   return (
     <div className='h-[90vh] w-screen overflow-x-hidden'>
       {/* Loading Screen */}
@@ -166,9 +162,9 @@ function Map() {
       ) : (
         <div className='flex flex-row'>
           {/* Main Menu */}
-          <div className='bg-secondary h-[700px] w-[500px] flex flex-col overflow-auto'>
+          <div className='bg-secondary h-[700px] xl:h-[90vh] w-[500px] flex flex-col overflow-auto'>
             {/* Search Bar */}
-            <div className='h-[10%] w-full flex justify-center items-center'>
+            <div className='relative h-[10%] w-full flex items-center'>
               <PlacesSearchBar changeCenter={changeCenter} />
             </div>
             {/* Button Group */}
@@ -181,7 +177,10 @@ function Map() {
                 />
               </div>
               <div className='h-full w-full flex flex-row justify-center items-center space-x-2'>
-                <ShuffleButton />
+                <ShuffleButton
+                  songs={songs}
+                  selectAndGoToSong={selectAndGoToSong}
+                />
                 <AddButton setModalOpen={setModalOpen} />
               </div>
             </div>
@@ -203,12 +202,12 @@ function Map() {
             <Sidebar
               setSongs={setSongs}
               songs={songs}
-              changeCenter={changeCenter}
+              selectAndGoToSong={selectAndGoToSong}
             />
           )}
           {/* Actual Map */}
           <GoogleMap
-            mapContainerClassName='h-[90vh] w-full'
+            mapContainerClassName='h-[700px] xl:h-[90vh] w-full'
             center={center}
             zoom={zoomLevel.HOME}
             onLoad={onLoad}
@@ -217,8 +216,7 @@ function Map() {
             <AdvancedMarkers
               map={mapRef}
               songs={songs}
-              setSelectedMarker={setSelectedMarker}
-              changeCenter={changeCenter}
+              selectAndGoToSong={selectAndGoToSong}
             />
           </GoogleMap>
         </div>
@@ -229,17 +227,16 @@ function Map() {
 
 export default Map
 
-interface AdvancedMarkersProps extends ChangeCenterProps {
+interface AdvancedMarkersProps {
   map: google.maps.Map | null | undefined
   songs: Song[]
-  setSelectedMarker: Dispatch<Song>
+  selectAndGoToSong: (song: Song) => void
 }
 
 function AdvancedMarkers({
   map,
   songs,
-  setSelectedMarker,
-  changeCenter,
+  selectAndGoToSong,
 }: AdvancedMarkersProps) {
   const [highlight, setHighlight] = useState<number>(0)
 
@@ -262,11 +259,7 @@ function AdvancedMarkers({
                 highlight === song.id ? 'scale-110' : 'scale-100'
               }`}
               onClick={() => {
-                setSelectedMarker(song)
-                changeCenter(
-                  { lat: song.lat, lng: song.lng },
-                  zoomLevel.CLOSE
-                )
+                selectAndGoToSong(song)
               }}
               onMouseEnter={() => setHighlight(song.id)}
               onMouseLeave={() => setHighlight(0)}
