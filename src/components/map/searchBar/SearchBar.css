@@ -1,0 +1,7 @@
+.search-container {
+  display: flex;
+}
+
+.search-container input[type='search']::-webkit-search-cancel-button {
+  display: none;
+}

@@ -1,6 +1,7 @@
 import { zoomLevel } from '@/src/utils/constants'
 import { useCombobox } from 'downshift'
 import { useMemo, useState } from 'react'
+import './SearchBar.css'
 
 function PlacesSearchBar({ changeCenter }: ChangeCenterProps) {
   const google = window.google
@@ -98,11 +99,14 @@ function PlacesSearchBar({ changeCenter }: ChangeCenterProps) {
 
   return (
     <div className='absolute top-4 w-full flex flex-col'>
-      <input
-        type='search'
-        {...getInputProps()}
-        className='h-10 w-3/4 px-3 py-2 mx-auto bg-primary text-base text-secondary globalRounded focus:outline-none'
-      />
+      <div className='search-container'>
+        <input
+          type='search'
+          {...getInputProps()}
+          placeholder='Search Location'
+          className='h-10 w-3/4 px-3 py-2 mx-auto bg-primary text-base text-secondary globalRounded focus:outline-none'
+        />
+      </div>
       <ul {...getMenuProps()} className='mt-2 flex flex-col space-y-1'>
         {searchResult.autocompleteSuggestions.length > 0
           ? searchResult.autocompleteSuggestions.map(
@@ -118,7 +122,7 @@ function PlacesSearchBar({ changeCenter }: ChangeCenterProps) {
                       highlightedIndex === index
                         ? 'bg-gray-500'
                         : 'bg-primary'
-                    } p-2 z-30 w-3/4 mx-auto text-secondary border-2 border-tertiary globalRounded`}
+                    } p-2 z-30 w-3/4 mx-auto text-secondary border-[1px] border-tertiary globalRounded`}
                   >
                     <p className='text-sm font-medium'>
                       {item.name.string}
