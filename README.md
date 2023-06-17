@@ -1,6 +1,6 @@
 # Globify
 
-An application to showcase songs that people are listening to from across the world, utilizing Google Maps API and Spotify API, featuring a Next.js frontend built with React, Typescript, and a Ruby on Rails backend.
+An application to showcase songs that people are listening to from across the world, utilizing Google Maps API and Spotify API, featuring a Next.js frontend built with React, Typescript, and a Ruby on Rails backend. It is a revamp of a prior project I made last year see the [repo link](https://github.com/KotaUeshima/globify-frontend) for that.
 
 ## Demo
 
