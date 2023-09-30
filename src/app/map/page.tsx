@@ -82,9 +82,6 @@ function Map() {
     return !isLoaded || songs.length === 0
   }, [isLoaded, songs])
 
-  console.log('isLoaded >>>', isLoaded)
-  console.log('Song Length >>>', songs.length)
-
   const changeCenter = async (newCenter: MapLocation, newZoom: number) => {
     if (mapRef) {
       const currentZoom = mapRef.getZoom()!
