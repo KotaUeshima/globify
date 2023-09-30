@@ -79,8 +79,11 @@ function Map() {
 
   // load page once songs, location, and map have all been intialized
   const loading = useMemo<boolean>(() => {
-    return !isLoaded || songs.length === 0 || userLocation === null
-  }, [isLoaded, songs, userLocation])
+    return !isLoaded || songs.length === 0
+  }, [isLoaded, songs])
+
+  console.log('isLoaded >>>', isLoaded)
+  console.log('Song Length >>>', songs.length)
 
   const changeCenter = async (newCenter: MapLocation, newZoom: number) => {
     if (mapRef) {

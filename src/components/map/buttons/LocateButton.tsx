@@ -13,8 +13,18 @@ function LocateButton({ changeCenter, userLocation }: LocateButtonProps) {
   }
 
   return (
-    <button className='mapButton' onClick={findUserLocation}>
-      <MapPinIcon className='mapButtonIcon' />
+    <button
+      disabled={userLocation === null}
+      className={`mapButton ${
+        userLocation === null ? ' bg-gray-200 hover:bg-gray-200' : ''
+      }`}
+      onClick={findUserLocation}
+    >
+      <MapPinIcon
+        className={`mapButtonIcon ${
+          userLocation === null ? 'text-primary/30' : ''
+        }`}
+      />
     </button>
   )
 }
